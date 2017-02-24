@@ -21,7 +21,7 @@ public class Server extends UnicastRemoteObject implements UserManager{
             return new LoggedInUser();
         }
         User u = infoManager.getUser(username, password);
-        if (!(u instanceof IncorrectUser) && !(u instanceof NotExistUser)) {
+        if (u instanceof CorrectUser) {
             onlineManager.add(username);
         }
         return u;
@@ -34,7 +34,7 @@ public class Server extends UnicastRemoteObject implements UserManager{
         User newUser = infoManager.register(username, password);
         onlineManager.add(username);
         System.out.println("registration successful: " + username);
-        return new User(newUser);
+        return newUser;
     }
     public void logout(String username) throws RemoteException {
         System.out.println("receive logout request: " + username);

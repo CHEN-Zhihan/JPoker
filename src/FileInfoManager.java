@@ -1,5 +1,6 @@
 import java.io.*;
 import java.nio.file.NoSuchFileException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -10,12 +11,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class FileInfoManager extends FileManager implements InfoManager {
     private HashMap<String, User> users;
     private HashMap<String, char[]> keys;
-    private PasswordManager pm;
     private ObjectInputStream input;
     FileInfoManager() {
         file = new File("./UserInfo.txt");
         readAll();
-        pm = PasswordManager.getInstance();
     }
 
     private void readAll() {
@@ -60,9 +59,9 @@ public class FileInfoManager extends FileManager implements InfoManager {
     public User register(String username, char[] password) {
         write.lock();
         try {
-            User newUser = new User(username);
+            User newUser = new CorrectUser(username);
             users.put(username, newUser);
-            keys.put(username, pm.encrypt(password));
+            keys.put(username, password);
             writeAll();
             return newUser;
         } finally {
@@ -77,7 +76,7 @@ public class FileInfoManager extends FileManager implements InfoManager {
                 System.err.println("Not Exist User");
                 return new NotExistUser();
             }
-            if (!pm.authenticate(password, keys.get(username))) {
+            if (!Arrays.equals(password, keys.get(username))) {
                 System.err.println("Incorrect password");
                 return new IncorrectUser();
             }

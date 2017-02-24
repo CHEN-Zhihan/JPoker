@@ -9,79 +9,67 @@ public class Client {
     private String hostIP;
     private UserManager userManager;
     private User user;
+    public static final int LOGIN_SUCCESS = 1;
+    public static final int INCORRECT_PASSWORD = 2;
+    public static final int USER_NOT_EXIST = 3;
+    public static final int USER_LOGGED_IN = 4;
+    public static final int USER_EXIST = 1;
+    public static final int REGISTER_SUCCESS = 2;
+    public static final int LOGOUT_SUCCESS = 1;
+    public static final int LOGOUT_FAILURE = 2;
     public Client(String hostIP) {
         try {
             Registry registry = LocateRegistry.getRegistry(hostIP);
             userManager = (UserManager)registry.lookup("server");
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    logout();
+                } catch (RemoteException e) {
+                    System.err.println("Failed logout: ");
+                    System.exit(-1);
+                }
+
+            }));
         } catch (Exception e) {
             System.err.println("Failed accessming RMI: " + e);
             System.exit(-1);
         }
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> logout()));
     }
 
-    public static void main(String[] args) {
-        Client client = new Client(args[0]);
-        client.login("abcd", "efg".toCharArray());
-//        client.register("abcd", "efg".toCharArray());
-//        client.logout();
-//        client.login("abcd", "ef".toCharArray());
-//        client.login("abcd", "efg".toCharArray());
-//        client.login("abcd", "efg".toCharArray());
-    }
-    void login(String username, char[] password) {
-
-        if (username.length() == 0 || password.length == 0) {
-            System.err.println("Incomplete information");
-            return;
-        }
-        try {
-            User u = userManager.login(username, password);
-            if (u instanceof IncorrectUser) {
-                System.err.println("password incorrect");
-            } else if (u instanceof NotExistUser) {
-                System.err.println("User not exist");
-            } else if (u instanceof LoggedInUser) {
-                System.err.println("User logged in");
-            } else {
-                if (user != null) {
-                    logout();
-                }
-                user = u;
-                System.out.println("login successful");
-            }
-        } catch (RemoteException e) {
-            System.err.println("Error invoking RMI: " + e);
-        }
-    }
-
-    void register(String username, char[] password) {
-        if (username.length() == 0 || password.length == 0) {
-            System.err.println("Incomplete information");
-            return;
-        }
-        try {
-            User u = userManager.register(new String(username), password);
-            if (u instanceof ExistUser) {
-                System.err.println("User exist");
-            }
+    int login(String username, char[] password) throws RemoteException{
+        password = PasswordManager.getInstance().encrypt(password);
+        User u = userManager.login(username, password);
+        password = null;
+        int result = 0;
+        if (u instanceof CorrectUser) {
             user = u;
-        } catch (RemoteException e) {
-            System.err.println("Error register: " + e);
+            result = LOGIN_SUCCESS;
+        } else if (u instanceof IncorrectUser) {
+            result = INCORRECT_PASSWORD;
+        } else if (u instanceof LoggedInUser) {
+            result = USER_LOGGED_IN;
+        } else if (u instanceof NotExistUser) {
+            result = USER_NOT_EXIST;
         }
+        return result;
     }
 
-    void logout() {
-        if (user != null) {
-            try {
-                userManager.logout(user.getUsername());
-                System.out.println("Log out successful");
-                user = null;
-            } catch (RemoteException e) {
-                System.err.println("Error logout: " + e);
-            }
-        } else {
-            System.out.println("Bye");
+    int register(String username, char[] password) throws RemoteException{
+        password = PasswordManager.getInstance().encrypt(password);
+        User u = userManager.register(username, password);
+        password = null;
+        int result = 0;
+        if (u instanceof CorrectUser) {
+            user = u;
+            result = REGISTER_SUCCESS;
+        } else if (u instanceof ExistUser) {
+            result = USER_EXIST;
         }
+        return result;
+    }
+
+    void logout() throws RemoteException{
+        userManager.logout(user.getUsername());
+        user = null;
     }
 }

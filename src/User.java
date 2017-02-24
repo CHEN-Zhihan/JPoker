@@ -4,7 +4,7 @@ import java.util.HashMap;
 /**
  * Created by zhihan on 2/6/17.
  */
-public class User implements Serializable, Comparable<User>{
+public abstract class User implements Serializable, Comparable<User>{
     private String username;
     private int numGames;
     private int numWins;
@@ -54,6 +54,15 @@ public class User implements Serializable, Comparable<User>{
         }
     }
 
+}
+
+class CorrectUser extends User {
+    CorrectUser(String name) {
+        super(name);
+    }
+    CorrectUser(CorrectUser another) {
+        super(another);
+    }
 }
 
 class NotExistUser extends User{
