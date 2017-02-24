@@ -28,12 +28,31 @@ public class Client {
                     System.err.println("Failed logout: ");
                     System.exit(-1);
                 }
-
             }));
         } catch (Exception e) {
-            System.err.println("Failed accessming RMI: " + e);
+            System.err.println("Failed accessing RMI: " + e);
             System.exit(-1);
         }
+    }
+
+    public String getUsername() {
+        return user.getUsername();
+    }
+
+    public int getNumGames() {
+        return user.getNumGames();
+    }
+
+    public int getNumWins() {
+        return user.getNumWins();
+    }
+
+    public double getAverage() {
+        return user.getAverageTime();
+    }
+
+    public int getRank() throws RemoteException {
+        return userManager.getRank(user.getUsername());
     }
 
     int login(String username, char[] password) throws RemoteException{
@@ -69,7 +88,9 @@ public class Client {
     }
 
     void logout() throws RemoteException{
-        userManager.logout(user.getUsername());
-        user = null;
+        if (user != null) {
+            userManager.logout(user.getUsername());
+            user = null;
+        }
     }
 }

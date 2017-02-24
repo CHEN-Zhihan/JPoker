@@ -23,7 +23,7 @@ public class LoginFrame extends JFrame {
 
     private void initializeAppearance() {
         rootPane = this.getRootPane();
-        this.setSize(320, 200);
+        this.setSize(260, 150);
         this.setTitle("Login");
         passwordField = new JPasswordField();
         usernameField = new JTextField();
@@ -58,10 +58,10 @@ public class LoginFrame extends JFrame {
         this.add(register);
         usernameLabel.setBounds(10, 5, 150, 30);
         passwordLabel.setBounds(10, 50, 150, 30);
-        usernameField.setBounds(100, 5, 100, 30);
-        passwordField.setBounds(100, 50, 100, 30);
-        login.setBounds(10, 150, 90, 30);
-        register.setBounds(100, 150, 100, 30);
+        usernameField.setBounds(100, 5, 150, 30);
+        passwordField.setBounds(100, 50, 150, 30);
+        login.setBounds(10, 100, 90, 30);
+        register.setBounds(150, 100, 100, 30);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setVisible(true);
@@ -90,9 +90,6 @@ public class LoginFrame extends JFrame {
             usernameField.setText("");
         }
     }
-
-
-
 
 
     public static void main(String[] args) {

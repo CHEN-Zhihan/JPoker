@@ -57,4 +57,10 @@ public class Server extends UnicastRemoteObject implements UserManager{
         Collections.sort(users);
         return users;
     }
+
+    public int getRank(String username) {
+        ArrayList<User> users = new ArrayList<>(infoManager.getUsers().values());
+        Collections.sort(users);
+        return users.indexOf(infoManager.getUsers().get(username));
+    }
 }

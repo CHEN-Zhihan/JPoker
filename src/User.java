@@ -38,7 +38,7 @@ public abstract class User implements Serializable, Comparable<User>{
     }
 
     double getAverageTime() {
-        return totalTime / numGames;
+        return numGames>0? totalTime / numGames :-1;
     }
 
     String getUsername() {return username; }
@@ -48,7 +48,15 @@ public abstract class User implements Serializable, Comparable<User>{
         if (numWins < another.getNumWins()) {
             return -1;
         } else if (numWins == another.getNumWins()) {
-            return 0;
+            double mine = getAverageTime();
+            double ano = another.getAverageTime();
+            if (mine < ano) {
+                return 1;
+            } else if (mine == ano) {
+                return 0;
+            } else {
+                return -1;
+            }
         } else {
             return 1;
         }
