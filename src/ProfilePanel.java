@@ -1,6 +1,10 @@
 import sun.util.cldr.CLDRLocaleDataMetaInfo;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.rmi.RemoteException;
 import java.util.Objects;
@@ -8,21 +12,15 @@ import java.util.Objects;
 /**
  * Created by zhihan on 2/24/17.
  */
-public class ProfilePanel extends JPanel {
+public class ProfilePanel extends ObserverPanel {
     private Client client;
-    private String[] columnNames = {"Username", "Number of wins", "Number of games", "Average time to win", "Rank"};
     public ProfilePanel(Client client) {
         this.client = client;
         this.initializeAppearance();
     }
 
-    private void initializeAppearance() {
-
-
-        JLabel username = new JLabel(client.getUsername());
-        JLabel wins = new JLabel("Number of wins: " + Integer.toString(client.getNumWins()));
-        JLabel games = new JLabel("Number of games: " + Integer.toString(client.getNumGames()));
-        JLabel average = new JLabel("Average time to win: " + Double.toString(client.getAverage()));
+    protected void initializeAppearance() {
+        String[] columnNames = {"Rank", "Username", "Games won", "Games Played", "Average winning time"};
         int rank = -1;
         try {
             rank = client.getRank();
@@ -30,8 +28,23 @@ public class ProfilePanel extends JPanel {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this.getRootPane(), "Failed to get rank: " + e, "Failed to get rank", JOptionPane.ERROR_MESSAGE);
         }
-        Object[][] data = {{client.getUsername(), client.getNumWins(), client.getNumGames(), client.getAverage(), rank}};
-        JTable table = new JTable(data, columnNames);
-        this.add(table);
+        Object[][] data = {{rank, client.getUsername(), client.getNumWins(), client.getNumGames(), client.getAverage()}};
+        TableModel model = new DefaultTableModel(data, columnNames) {
+            public boolean isCellEditable(int column, int row) {
+                return false;
+            }
+        };
+
+        JTable table = new JTable(model);
+        table.getColumnModel().getColumn(0).setPreferredWidth(5);
+        table.getColumnModel().getColumn(1).setPreferredWidth(40);
+        table.getColumnModel().getColumn(2).setPreferredWidth(40);
+        table.getColumnModel().getColumn(3).setPreferredWidth(56);
+        table.getColumnModel().getColumn(4).setPreferredWidth(110);
+        table.getTableHeader().setReorderingAllowed(false);
+        for (int i = 0; i != columnNames.length; ++i) {
+            table.getColumnModel().getColumn(i).setResizable(false);
+        }
+        this.add(new JScrollPane(table));
     }
 }

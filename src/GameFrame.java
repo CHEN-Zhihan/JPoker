@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 public class GameFrame extends JFrame {
     private Client client;
     private JRootPane rootPane;
-    private JPanel panel;
+    private ObserverPanel panel;
     private ProfilePanel profilePanel;
     private LeaderBoardPanel leaderBoardPanel;
     private GamePanel gamePanel;
@@ -40,17 +40,19 @@ public class GameFrame extends JFrame {
         this.setPanel(profilePanel);
         this.setSize(500, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
     }
 
-    private void setPanel(JPanel panel) {
+    private void setPanel(ObserverPanel panel) {
         if (this.panel != panel) {
             if (this.panel != null) {
                 this.remove(this.panel);
             }
             this.add(panel);
             this.panel = panel;
+            this.panel.update();
             this.panel.repaint();
             this.repaint();
             this.revalidate();

@@ -1,6 +1,7 @@
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 /**
  * Created by zhihan on 2/9/17.
@@ -53,6 +54,10 @@ public class Client {
 
     public int getRank() throws RemoteException {
         return userManager.getRank(user.getUsername());
+    }
+
+    public ArrayList<User> getAllUsers() throws RemoteException{
+        return userManager.getAllUsers();
     }
 
     int login(String username, char[] password) throws RemoteException{

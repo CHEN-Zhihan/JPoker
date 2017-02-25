@@ -75,6 +75,7 @@ public class RegisterFrame extends JFrame{
         passwordField2.setBounds(150, 95, 150, 30);
         register.setBounds(10, 150, 100, 30);
         cancel.setBounds(200, 150, 100, 30);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

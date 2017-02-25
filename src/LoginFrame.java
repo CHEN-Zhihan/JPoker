@@ -64,6 +64,7 @@ public class LoginFrame extends JFrame {
         register.setBounds(150, 100, 100, 30);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 

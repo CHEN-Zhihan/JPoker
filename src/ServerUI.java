@@ -26,14 +26,14 @@ public class ServerUI {
         }
     }
 
-    private void showAllUsers() {
+    private void showAllUsers() throws RemoteException{
         System.out.println("show all users: ");
         for (User u : server.getAllUsers()) {
             System.out.println(u.getUsername());
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException{
         ServerUI ui = new ServerUI();
         Scanner s = new Scanner(System.in);
         String x;

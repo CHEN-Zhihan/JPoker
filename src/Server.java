@@ -42,13 +42,13 @@ public class Server extends UnicastRemoteObject implements UserManager{
         System.out.println("logout successful: " + username);
     }
 
-    public Iterable<User> getAllUsers() {
+    public ArrayList<User> getAllUsers() throws RemoteException {
         ArrayList<User> l = new ArrayList<>(infoManager.getUsers().values());
         Collections.sort(l);
         return l;
     }
 
-    public Iterable<User> getOnlineUsers() {
+    public ArrayList<User> getOnlineUsers() {
         ArrayList<User> users = new ArrayList<>();
         HashMap<String, User> allUsers = infoManager.getUsers();
         for (String s : onlineManager.getUsers()) {
@@ -61,6 +61,11 @@ public class Server extends UnicastRemoteObject implements UserManager{
     public int getRank(String username) {
         ArrayList<User> users = new ArrayList<>(infoManager.getUsers().values());
         Collections.sort(users);
-        return users.indexOf(infoManager.getUsers().get(username));
+        return users.indexOf(infoManager.getUsers().get(username)) + 1;
+    }
+
+    public int getUserNumber() throws RemoteException {
+        HashMap<String, User> allUsers = infoManager.getUsers();
+        return allUsers.size();
     }
 }
