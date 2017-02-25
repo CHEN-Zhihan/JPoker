@@ -37,7 +37,7 @@ public class ServerUI {
         ServerUI ui = new ServerUI();
         Scanner s = new Scanner(System.in);
         String x;
-        while (!(x = s.nextLine()).equals("exit")) {
+        while (s.hasNext() && !"exit".equals((x=s.next()))) {
             if (x.equals("all")) {
                 ui.showAllUsers();
             }
@@ -45,5 +45,6 @@ public class ServerUI {
                 ui.showOnlineUsers();
             }
         }
+        System.exit(0);
     }
 }
