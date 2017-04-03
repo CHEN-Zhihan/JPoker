@@ -4,29 +4,33 @@ import java.util.HashMap;
 /**
  * Created by zhihan on 2/6/17.
  */
-public abstract class User implements Serializable, Comparable<User>{
+public class User implements Serializable {
     private String username;
     private int numGames;
     private int numWins;
     private double totalTime;
     private static final long serialVersionUID = 8367908553994431734L;
+    private int validFlag;
     User(String username) {
         this.username = username;
         numGames = 0;
         numWins = 0;
         totalTime = 0;
+        validFlag = 0;
     }
-
-    User(User another) {
-        this.numGames = another.getNumGames();
-        this.numWins = another.getNumWins();
-        this.totalTime = another.getTotalTime();
-        this.username = another.getUsername();
+    User(int validFlag) {
+        this.validFlag = validFlag;
     }
-
-
+    User (String username, int numGames, int numWins, double totalTime) {
+        this(username);
+        this.numGames = numGames;
+        this.numWins = numWins;
+        this.totalTime = totalTime;
+        this.validFlag = UserManager.VALID;
+    }
+    int getValidFlag() {return validFlag;}
     double getTotalTime() {
-        return this.totalTime;
+        return totalTime;
     }
 
     int getNumGames() {
@@ -42,57 +46,4 @@ public abstract class User implements Serializable, Comparable<User>{
     }
 
     String getUsername() {return username; }
-
-
-    public int compareTo(User another) {
-        if (numWins < another.getNumWins()) {
-            return -1;
-        } else if (numWins == another.getNumWins()) {
-            double mine = getAverageTime();
-            double ano = another.getAverageTime();
-            if (mine < ano) {
-                return 1;
-            } else if (mine == ano) {
-                return 0;
-            } else {
-                return -1;
-            }
-        } else {
-            return 1;
-        }
-    }
-
-}
-
-class CorrectUser extends User {
-    CorrectUser(String name) {
-        super(name);
-    }
-    CorrectUser(CorrectUser another) {
-        super(another);
-    }
-}
-
-class NotExistUser extends User{
-    NotExistUser() {
-        super("NotExist");
-    }
-}
-
-class IncorrectUser extends User {
-    IncorrectUser() {
-        super("Incorrect");
-    }
-}
-
-class LoggedInUser extends User {
-    LoggedInUser() {
-        super("LoggedIn");
-    }
-}
-
-class ExistUser extends User {
-    ExistUser() {
-        super("Exist");
-    }
 }

@@ -78,7 +78,7 @@ public class Client {
         return result;
     }
 
-    int register(String username, char[] password) throws RemoteException{
+    int register(String username, char[] password) throws RemoteException {
         password = PasswordManager.getInstance().encrypt(password);
         User u = userManager.register(username, password);
         password = null;

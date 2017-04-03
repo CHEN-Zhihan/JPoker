@@ -1,71 +1,110 @@
-import java.rmi.Naming;
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.*;
 import java.util.*;
 
 /**
  * Created by zhihan on 2/7/17.
  */
-public class Server extends UnicastRemoteObject implements UserManager{
+public class Server extends UnicastRemoteObject implements UserManager {
 
-    private InfoManager infoManager;
-    private OnlineManager onlineManager;
+    private Connection connection;
+    private HashMap<String, char[]> cache = new HashMap<>();
     Server() throws RemoteException {
-        infoManager = new FileInfoManager();
-        onlineManager = new FileOnlineManager();
+        try {
+            Class.forName("com.mysql.jdbc.driver").newInstance();
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/COMP3402", "COMP3402", "password");
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
+            System.err.println("[ERROR] cannot establish database connection " + e);
+            System.exit(-1);
+        }
     }
-
     public User login(String username, char[] password) throws RemoteException {
-        System.out.println("receive login request: " + username);
-        if (onlineManager.isOnline(username)) {
-            return new LoggedInUser();
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM COMP3402 WHERE username = ?");
+            stmt.setString(1, username);
+            ResultSet result = stmt.executeQuery();
+            if (result.next()) {
+                char[] passwordInDB = result.getString("password").toCharArray();
+                if (!Arrays.equals(password, passwordInDB)) {
+                    return new User(USER_INCORRECT_PASSWORD);
+                }
+                boolean hasLoggedIn = result.getBoolean("loggedIn");
+                if (hasLoggedIn) {
+                    return new User(USER_HAS_LOGGEDIN);
+                }
+                int numGames = result.getInt("numGames");
+                int numWins = result.getInt("numWins");
+                double totalTime = result.getDouble("totalTime");
+                return new User(username, numGames, numWins, totalTime);
+            }
+            return new User(USER_NOT_EXIST);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return new User(DATABASE_ERROR);
         }
-        User u = infoManager.getUser(username, password);
-        if (u instanceof CorrectUser) {
-            onlineManager.add(username);
+    }
+    public int register(String username, char[] password) throws RemoteException {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM COMP3402 WHERE username = ?");
+            stmt.setString(1, username);
+            ResultSet result = stmt.executeQuery();
+            if (result.next()) {
+                return HAS_REGISTERED;
+            }
+            stmt = connection.prepareStatement("INSERT INTO COMP3402 (username, password, numWins, numGames, totalTime, loggedIn) "+
+                    "VALUES (?, ?, 0, 0, 0, FALSE)");
+            stmt.setString(1, username);
+            stmt.setString(2, password.toString());
+            boolean insertResult = stmt.execute();
+            if (insertResult) {
+                return VALID;
+            }
+            return DATABASE_ERROR;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return DATABASE_ERROR;
         }
-        return u;
     }
-    public User register(String username, char[] password) throws RemoteException {
-        System.out.println("receive register request: " + username);
-        if (infoManager.exists(username)) {
-            return new ExistUser();
+    public boolean logout(String username) throws RemoteException {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = FALSE WHERE username = ?");
+            stmt.setString(1, username);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return false;
         }
-        User newUser = infoManager.register(username, password);
-        onlineManager.add(username);
-        System.out.println("registration successful: " + username);
-        return newUser;
     }
-    public void logout(String username) throws RemoteException {
-        System.out.println("receive logout request: " + username);
-        onlineManager.remove(username);
-        System.out.println("logout successful: " + username);
+    public int getRank(String username) throws RemoteException {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT username, numWins, numGames, totalTime, ")
+        }
     }
-
     public ArrayList<User> getAllUsers() throws RemoteException {
-        ArrayList<User> l = new ArrayList<>(infoManager.getUsers().values());
-        Collections.sort(l);
-        return l;
-    }
-
-    public ArrayList<User> getOnlineUsers() {
-        ArrayList<User> users = new ArrayList<>();
-        HashMap<String, User> allUsers = infoManager.getUsers();
-        for (String s : onlineManager.getUsers()) {
-            users.add(allUsers.get(s));
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT username, numWins, numGames, totalTime FROM COMP3402");
+            String username = null;
+            int numWins = 0;
+            int numGames = 0;
+            double totalTime = 0;
+            ArrayList<User> result = new ArrayList<>();
+            while (resultSet.next()) {
+                username = resultSet.getString("username");
+                numGames = resultSet.getInt("numGames");
+                numWins = resultSet.getInt("numWins");
+                totalTime = resultSet.getDouble("totalTime");
+                result.add(new User(username, numGames, numWins, totalTime));
+            }
+            return result;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
-        Collections.sort(users);
-        return users;
-    }
-
-    public int getRank(String username) {
-        ArrayList<User> users = new ArrayList<>(infoManager.getUsers().values());
-        Collections.sort(users);
-        return users.indexOf(infoManager.getUsers().get(username)) + 1;
-    }
-
-    public int getUserNumber() throws RemoteException {
-        HashMap<String, User> allUsers = infoManager.getUsers();
-        return allUsers.size();
     }
 }

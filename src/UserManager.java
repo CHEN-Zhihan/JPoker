@@ -6,9 +6,15 @@ import java.util.ArrayList;
  * Created by zhihan on 2/6/17.
  */
 public interface UserManager extends Remote {
-    public User login(String username, char[] password) throws RemoteException;
-    public User register(String username, char[] password) throws RemoteException;
-    public void logout(String username) throws RemoteException;
-    public int getRank(String username) throws RemoteException;
-    public ArrayList<User> getAllUsers() throws RemoteException;
+    int USER_HAS_LOGGEDIN = 1;
+    int USER_NOT_EXIST = 2;
+    int USER_INCORRECT_PASSWORD = 3;
+    int VALID = 4;
+    int HAS_REGISTERED = 1;
+    int DATABASE_ERROR = -1;
+    User login(String username, char[] password) throws RemoteException;
+    int register(String username, char[] password) throws RemoteException;
+    boolean logout(String username) throws RemoteException;
+    int getRank(String username) throws RemoteException;
+    ArrayList<User> getAllUsers() throws RemoteException;
 }
