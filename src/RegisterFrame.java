@@ -84,11 +84,11 @@ public class RegisterFrame extends JFrame{
     private void register(String username, char[] password) {
         try{
             int result = client.register(username, password);
-            if (result == Client.REGISTER_SUCCESS) {
+            if (result == UserManager.VALID) {
                 this.setVisible(false);
                 this.dispose();
                 new GameFrame(client);
-            } else if (result == Client.USER_EXIST) {
+            } else {
                 JOptionPane.showMessageDialog(rootPane, "Register Failed: User exist","Register Failed", JOptionPane.ERROR_MESSAGE);
                 passwordField1.setText("");
                 passwordField2.setText("");

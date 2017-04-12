@@ -4,7 +4,7 @@ import java.util.HashMap;
 /**
  * Created by zhihan on 2/6/17.
  */
-public class User implements Serializable {
+class User implements Serializable {
     private String username;
     private int numGames;
     private int numWins;

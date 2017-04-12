@@ -12,7 +12,7 @@ public final class PasswordManager {
     private static PasswordManager instance;
     private PasswordManager() {}
 
-    public synchronized char[] encrypt(char[] plaintext){
+    synchronized char[] encrypt(char[] plaintext){
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(new String(plaintext).getBytes("UTF-8"));
@@ -29,7 +29,7 @@ public final class PasswordManager {
         return Arrays.equals(encrypted, password);
     }
 
-    public synchronized static PasswordManager  getInstance() {
+    synchronized static PasswordManager  getInstance() {
         if (instance == null) {
             instance = new PasswordManager();
         }

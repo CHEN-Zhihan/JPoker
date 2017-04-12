@@ -11,7 +11,6 @@ import java.util.*;
 public class Server extends UnicastRemoteObject implements UserManager {
 
     private Connection connection;
-    private HashMap<String, char[]> cache = new HashMap<>();
     Server() throws RemoteException {
         try {
             Class.forName("com.mysql.jdbc.driver").newInstance();
@@ -81,8 +80,13 @@ public class Server extends UnicastRemoteObject implements UserManager {
     }
     public int getRank(String username) throws RemoteException {
         try {
-            Statement stmt = connection.createStatement();
-            ResultSet resultSet = stmt.executeQuery("SELECT username, numWins, numGames, totalTime, ")
+            PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(numWins) FROM COMP3402 WHERE numWins < (SELECT numWins FROM COMP3402 WHERE username = ?)");
+            stmt.setString(1, username);
+            ResultSet resultSet = stmt.executeQuery();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return -1;
         }
     }
     public ArrayList<User> getAllUsers() throws RemoteException {

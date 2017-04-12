@@ -71,17 +71,15 @@ public class LoginFrame extends JFrame {
     private void login(String username, char[] password) {
         try {
             int result = client.login(username, password);
-            if (result == Client.LOGIN_SUCCESS) {
+            if (result == UserManager.VALID) {
                 this.setVisible(false);
                 this.dispose();
                 new GameFrame(client);
-                return;
-            } else if (result == Client.USER_NOT_EXIST) {
-
+            } else if (result == UserManager.USER_NOT_EXIST) {
                 JOptionPane.showMessageDialog(rootPane, "Login Failed: User Not Exist", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            } else if (result == Client.USER_LOGGED_IN) {
+            } else if (result == UserManager.USER_HAS_LOGGEDIN) {
                 JOptionPane.showMessageDialog(rootPane, "Login Failed: User Logged In Already", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            } else if (result == Client.INCORRECT_PASSWORD) {
+            } else if (result == UserManager.USER_INCORRECT_PASSWORD) {
                 JOptionPane.showMessageDialog(rootPane, "Login Failed: Incorrect Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
         } catch (RemoteException e) {
