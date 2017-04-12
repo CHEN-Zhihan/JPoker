@@ -43,6 +43,7 @@ public class GameFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
+
     }
 
     private void setPanel(ObserverPanel panel) {

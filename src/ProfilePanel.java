@@ -28,7 +28,7 @@ public class ProfilePanel extends ObserverPanel {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this.getRootPane(), "Failed to get rank: " + e, "Failed to get rank", JOptionPane.ERROR_MESSAGE);
         }
-        Object[][] data = {{rank, client.getUsername(), client.getNumWins(), client.getNumGames(), client.getAverage()}};
+        Object[][] data = {{rank, client.getUsername(), client.getNumWins(), client.getNumGames(), client.getAverage()>0?client.getAverage():"N/A"}};
         TableModel model = new DefaultTableModel(data, columnNames) {
             public boolean isCellEditable(int column, int row) {
                 return false;
@@ -46,5 +46,6 @@ public class ProfilePanel extends ObserverPanel {
             table.getColumnModel().getColumn(i).setResizable(false);
         }
         this.add(new JScrollPane(table));
+        this.setVisible(true);
     }
 }

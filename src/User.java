@@ -4,7 +4,7 @@ import java.util.HashMap;
 /**
  * Created by zhihan on 2/6/17.
  */
-class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
     private String username;
     private int numGames;
     private int numWins;
@@ -46,4 +46,13 @@ class User implements Serializable {
     }
 
     String getUsername() {return username; }
+    public int compareTo(User another) {
+        if (numWins < another.getNumWins()) {
+            return -1;
+        } else if (numWins == another.getNumWins()) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
