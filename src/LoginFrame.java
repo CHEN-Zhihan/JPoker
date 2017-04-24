@@ -19,6 +19,9 @@ public class LoginFrame extends JFrame {
     LoginFrame(Client client) {
         this.client = client;
         initializeAppearance();
+        String username = "1";
+        char [] password = {'1'};
+        login(username, password);
     }
 
     private void initializeAppearance() {

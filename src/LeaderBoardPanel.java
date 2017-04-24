@@ -54,7 +54,7 @@ public class LeaderBoardPanel extends ObserverPanel {
     }
     private int[] getRanks() {
         int[] ranks = new int[users.size()];
-        int cumulated = 1;
+        int cumulation = 1;
         int index = 0;
         while (index < users.size() - 1) {
             int j = 0;
@@ -62,9 +62,9 @@ public class LeaderBoardPanel extends ObserverPanel {
                 ++j;
             }
             for (int i = index; i != index + j; ++i) {
-                ranks[i] = cumulated;
+                ranks[i] = cumulation;
             }
-            cumulated += j;
+            cumulation += j;
             index += j;
             index += 1;
         }

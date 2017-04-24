@@ -10,6 +10,7 @@ class Client {
     private String hostIP;
     private UserManager userManager;
     private User user;
+    private Game game;
     Client(String hostIP) {
         try {
             Registry registry = LocateRegistry.getRegistry(hostIP);
@@ -79,4 +80,14 @@ class Client {
             user = null;
         }
     }
+
+    Game startGame() {
+        game = new Game(null);
+        return game;
+    }
+
+    void complete() {
+        ;
+    }
+
 }
