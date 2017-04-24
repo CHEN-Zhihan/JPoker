@@ -50,13 +50,14 @@ class GamePanel extends ObserverPanel {
    //             check();
             }
             private  void check() {
-                int outcome = Calculator.calculate(input.getText(), g.getCards());
+                int outcome = Calculator.calculate(input.getText(), game.getCards());
                 if (outcome == Calculator.ILLEGAL) {
                     result.setText("=");
                     return;
                 }
                 if (outcome == game.getTarget() && Calculator.allUsed()) {
                     client.complete();
+                    complete();
                     return;
                 }
                 result.setText("=" + outcome);

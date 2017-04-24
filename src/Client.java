@@ -87,7 +87,7 @@ class Client {
     }
 
     void complete() {
-        ;
+        game.complete();
     }
 
 }

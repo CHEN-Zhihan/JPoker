@@ -11,6 +11,7 @@ class Game {
     private HashSet<Integer> cards;
     private int target;
     private long startTime;
+    private long endTime;
     Game(User[] u) {
         startTime = System.nanoTime();
         users = u;
@@ -42,6 +43,10 @@ class Game {
     }
 
     double getDuration() {
-        return ((double)(System.nanoTime() - startTime)) / 1000000000;
+        return ((double)(endTime - startTime)) / 1000000000;
+    }
+
+    void complete() {
+        endTime = System.nanoTime();
     }
 }
