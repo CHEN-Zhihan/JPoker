@@ -67,15 +67,13 @@ public class Server extends UnicastRemoteObject implements UserManager {
             return DATABASE_ERROR;
         }
     }
-    public boolean logout(String username) throws RemoteException {
+    public void logout(String username) throws RemoteException {
         try {
             PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = FALSE WHERE username = ?");
             stmt.setString(1, username);
             int rows = stmt.executeUpdate();
-            return rows > 0;
         } catch (SQLException e) {
             System.err.println("Error logout: " + e);
-            return false;
         }
     }
     public int getRank(String username) throws RemoteException {

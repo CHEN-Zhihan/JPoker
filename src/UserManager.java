@@ -14,7 +14,7 @@ public interface UserManager extends Remote {
     int DATABASE_ERROR = -1;
     User login(String username, char[] password) throws RemoteException;
     int register(String username, char[] password) throws RemoteException;
-    boolean logout(String username) throws RemoteException;
+    void logout(String username) throws RemoteException;
     int getRank(String username) throws RemoteException;
     ArrayList<User> getAllUsers() throws RemoteException;
 }
