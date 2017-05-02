@@ -9,10 +9,19 @@ public abstract class ServerMessage implements Serializable {
 
 
 class EndMessage extends ServerMessage {
-    private User winner;
+    private String winner;
+    private String solution;
+    EndMessage(String winner, String solution) {
+        this.winner = winner;
+        this.solution = solution;
+    }
 
-    EndMessage(User win) {
-        winner = win;
+    String getWinner() {
+        return winner;
+    }
+
+    String getSolution() {
+        return solution;
     }
     void execute(Client c) {
         c.onEnd(this);
@@ -25,6 +34,7 @@ class StartMessage extends ServerMessage {
     StartMessage(Game g) {
         game = g;
     }
+
     void execute(Client c) {
         c.onStart(this);
     }
@@ -32,4 +42,5 @@ class StartMessage extends ServerMessage {
     Game getGame() {
         return game;
     }
+
 }

@@ -2,7 +2,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
-import java.text.DecimalFormat;
 import java.util.HashSet;
 
 /**
@@ -14,14 +13,13 @@ class GamePanel extends ObserverPanel {
     private JButton start;
     private JTextField input = new JTextField();
     private JLabel result = new JLabel();
-    private JLabel target = new JLabel();
+    private JLabel winner = new JLabel();
+    private JLabel solution = new JLabel();
     private Game game;
-    private JRootPane rootPane;
-    private volatile boolean completed = false;
+    private boolean completed = false;
     GamePanel (Client client) {
         this.client = client;
         initializeAppearance();
-        rootPane = this.getRootPane();
         client.setObserver(this);
     }
 
@@ -53,8 +51,11 @@ class GamePanel extends ObserverPanel {
                     return;
                 }
                 if (outcome == 24 && Calculator.allUsed()) {
-                    client.complete();
-                    complete();
+                	if (!completed) {
+                		client.complete(input.getText());
+                		completed = true;
+                	}
+                    
                     return;
                 }
                 result.setText("=" + outcome);
@@ -63,27 +64,27 @@ class GamePanel extends ObserverPanel {
     }
 
 
-    private void complete() {
-        if (!completed) {
-            JOptionPane.showMessageDialog(rootPane, "Calculation Complete! Takes " +
-                            new DecimalFormat("#.###").format(game.getDuration()) + " seconds total",
-                    "Calculation Complete!", JOptionPane.INFORMATION_MESSAGE);
-            this.removeAll();
-            this.add(start);
-            this.revalidate();
-            this.repaint();
-        }
-        completed = true;
-    }
-
     void start(Game g) {
-        completed = false;
+    	completed = false;
         game = g;
         prepareGameView(game);
     }
 
+    void end(String winner, String solution) {
+        this.removeAll();
+        this.add(start);
+        this.add(this.winner);
+        this.add(this.solution);
+        this.winner.setBounds(50, 50, 200, 100);
+        this.solution.setBounds(50, 300, 200, 100);
+        this.winner.setText(winner);
+        this.solution.setText(solution);
+        start.setEnabled(true);
+    }
+
     void ready() {
         client.request();
+        start.setEnabled(false);
     }
 
     private void prepareGameView(Game g) {
@@ -100,7 +101,6 @@ class GamePanel extends ObserverPanel {
         this.add(input);
         this.add(result);
         input.setText("");
-        this.add(target);
         input.setBounds(150, 300, 100, 30);
         result.setBounds(250, 300, 50, 30);
         this.revalidate();

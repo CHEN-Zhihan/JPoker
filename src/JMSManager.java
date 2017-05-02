@@ -10,8 +10,6 @@ import java.io.Serializable;
 
 
 class JMSManager {
-    private String host;
-    private int port;
     private Context context;
     private ConnectionFactory factory;
     protected Queue queue;

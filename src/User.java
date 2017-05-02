@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.util.HashMap;
 
 /**
  * Created by zhihan on 2/6/17.

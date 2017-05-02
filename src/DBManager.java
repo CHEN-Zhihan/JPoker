@@ -66,7 +66,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
                     "VALUES (?, ?, 0, 0, 0, FALSE)");
             stmt.setString(1, username);
             stmt.setString(2, new String(password));
-            boolean insertResult = stmt.execute();
+            stmt.execute();
             Statement s = connection.createStatement();
             ResultSet resultSet = s.executeQuery("SELECT COUNT(*)");
             resultSet.next();
@@ -80,7 +80,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
         try {
             PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = FALSE WHERE username = ?");
             stmt.setString(1, username);
-            int rows = stmt.executeUpdate();
+            stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error logout: " + e);
         }

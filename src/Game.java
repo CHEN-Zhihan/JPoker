@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by zhihan on 2/24/17.
@@ -11,15 +8,21 @@ class Game {
     private HashSet<Integer> cards;
     private long startTime;
     private long endTime;
-    private GameManager manager;
     private int id;
+    private boolean ready;
+    private Timer timer = new Timer();
     Game(User u, int id, GameManager manager) {
         startTime = System.nanoTime();
         users = new ArrayList<>();
         users.add(u);
         prepareCards();
-        this.manager = manager;
         this.id = id;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ready = true;
+            }
+        }, 100000);
     }
 
 
@@ -35,6 +38,10 @@ class Game {
         return ((double)(endTime - startTime)) / 1000000000;
     }
 
+    boolean isReady() {
+        return ready;
+    }
+
     int getID() {return id;}
 
     void complete() {
@@ -43,6 +50,9 @@ class Game {
 
     void addUser(User u) {
         users.add(u);
+        if (users.size() == 4) {
+            ready = true;
+        }
     }
 
     void start() {

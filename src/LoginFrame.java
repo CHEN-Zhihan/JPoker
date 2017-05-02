@@ -1,4 +1,4 @@
-import sun.rmi.runtime.Log;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,8 +12,8 @@ public class LoginFrame extends JFrame {
     private JRootPane rootPane;
     private JPasswordField passwordField;
     private JTextField usernameField;
-    LoginFrame(String hostIP) {
-        this(new Client(hostIP));
+    LoginFrame(String hostIP, int port) {
+        this(new Client(hostIP, port));
     }
 
     LoginFrame(Client client) {
@@ -95,6 +95,6 @@ public class LoginFrame extends JFrame {
 
 
     public static void main(String[] args) {
-        LoginFrame ui = new LoginFrame(args[0]);
+        new LoginFrame(args[0], Integer.parseInt(args[1]));
     }
 }

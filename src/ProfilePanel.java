@@ -1,13 +1,9 @@
-import sun.util.cldr.CLDRLocaleDataMetaInfo;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-import java.awt.*;
 import java.rmi.RemoteException;
-import java.util.Objects;
 
 /**
  * Created by zhihan on 2/24/17.
@@ -28,7 +24,8 @@ public class ProfilePanel extends ObserverPanel {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this.getRootPane(), "Failed to get rank: " + e, "Failed to get rank", JOptionPane.ERROR_MESSAGE);
         }
-        Object[][] data = {{rank, client.getUsername(), client.getNumWins(), client.getNumGames(), client.getAverage()>0?client.getAverage():"N/A"}};
+        User u = client.getUser();
+        Object[][] data = {{rank, u.getUsername(), u.getNumWins(), u.getNumGames(), u.getAverageTime()>0?u.getAverageTime():"N/A"}};
         TableModel model = new DefaultTableModel(data, columnNames) {
             public boolean isCellEditable(int column, int row) {
                 return false;

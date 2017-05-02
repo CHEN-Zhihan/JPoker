@@ -1,8 +1,6 @@
 import javax.jms.JMSException;
-import javax.jms.Message;
 import javax.naming.NamingException;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Created by zhihan on 5/3/17.
@@ -31,10 +29,31 @@ public class GameManager {
     }
 
     void onRequest(RequestMessage m) {
-        ;
+        if (currentGame == null) {
+            currentGame = new Game(m.getSender(), gameCounter++, this);
+        } else {
+            currentGame.addUser(m.getSender());
+            if (currentGame.isReady()) {
+                jms.send(new StartMessage(currentGame));
+                gameSet.put(currentGame.getID(), currentGame);
+                currentGame = null;
+            }
+        }
     }
 
     void onFinish(FinishedMessage m) {
-        ;
+        if (gameSet.containsKey(m.getGameID())) {
+            Game game = gameSet.get(m.getGameID());
+            gameSet.remove(m.getGameID());
+            game.complete();
+            double time = game.getDuration();
+            manager.update(m.getSender().getID(), time);
+            for (User u:game.getUsers()) {
+                if (u.getID() != m.getSender().getID()) {
+                    manager.update(u.getID());
+                }
+            }
+            jms.send(new EndMessage(m.getSender().getUsername(), m.getSolution()));
+        }
     }
 }
