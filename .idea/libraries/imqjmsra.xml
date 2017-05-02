@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="imqjmsra">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/software/glassfish4/glassfish/lib/install/applications/jmsra/imqjmsra.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

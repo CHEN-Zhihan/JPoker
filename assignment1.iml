@@ -16,6 +16,26 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="gf-client" level="project" />
+    <orderEntry type="library" exported="" name="gf-client" level="project" />
+    <orderEntry type="library" exported="" name="imqjmsra" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/software/glassfish4/glassfish/lib/install/applications/jmsra" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/software/glassfish4/glassfish/lib/install/applications/jmsra" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/javax.jms-3.1.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
