@@ -1,13 +1,9 @@
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
@@ -26,6 +22,7 @@ class GamePanel extends ObserverPanel {
         this.client = client;
         initializeAppearance();
         rootPane = this.getRootPane();
+        client.setObserver(this);
     }
 
     protected void initializeAppearance() {
@@ -33,7 +30,7 @@ class GamePanel extends ObserverPanel {
         this.setLayout(null);
         this.add(start);
         start.setBounds(250, 0, 150, 30);
-        start.addActionListener((ActionEvent e) -> this.start());
+        start.addActionListener((ActionEvent e) -> this.ready());
         input.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public  void insertUpdate(DocumentEvent e) {
@@ -55,7 +52,7 @@ class GamePanel extends ObserverPanel {
                     result.setText("=");
                     return;
                 }
-                if (outcome == game.getTarget() && Calculator.allUsed()) {
+                if (outcome == 24 && Calculator.allUsed()) {
                     client.complete();
                     complete();
                     return;
@@ -79,11 +76,16 @@ class GamePanel extends ObserverPanel {
         completed = true;
     }
 
-    private void start() {
+    void start(Game g) {
         completed = false;
-        game = client.startGame();
+        game = g;
         prepareGameView(game);
     }
+
+    void ready() {
+        client.request();
+    }
+
     private void prepareGameView(Game g) {
         this.removeAll();
         this.add(start);
@@ -98,11 +100,9 @@ class GamePanel extends ObserverPanel {
         this.add(input);
         this.add(result);
         input.setText("");
-        target.setText("Target: " + g.getTarget());
         this.add(target);
         input.setBounds(150, 300, 100, 30);
         result.setBounds(250, 300, 50, 30);
-        target.setBounds(350, 300, 100, 30);
         this.revalidate();
         this.repaint();
     }

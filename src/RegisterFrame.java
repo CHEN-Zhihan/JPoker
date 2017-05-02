@@ -84,7 +84,7 @@ public class RegisterFrame extends JFrame{
     private void register(String username, char[] password) {
         try{
             int result = client.register(username, password);
-            if (result == UserManager.VALID) {
+            if (result > 0) {
                 this.setVisible(false);
                 this.dispose();
                 new GameFrame(client);

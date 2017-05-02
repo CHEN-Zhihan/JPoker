@@ -5,13 +5,15 @@ import java.util.HashMap;
  * Created by zhihan on 2/6/17.
  */
 public class User implements Serializable, Comparable<User> {
+    private int id;
     private String username;
     private int numGames;
     private int numWins;
     private double totalTime;
     private static final long serialVersionUID = 8367908553994431734L;
     private int validFlag;
-    User(String username) {
+    User(int id, String username) {
+        this.id = id;
         this.username = username;
         numGames = 0;
         numWins = 0;
@@ -21,8 +23,8 @@ public class User implements Serializable, Comparable<User> {
     User(int validFlag) {
         this.validFlag = validFlag;
     }
-    User (String username, int numGames, int numWins, double totalTime) {
-        this(username);
+    User (int id, String username, int numGames, int numWins, double totalTime) {
+        this(id, username);
         this.numGames = numGames;
         this.numWins = numWins;
         this.totalTime = totalTime;
@@ -54,5 +56,8 @@ public class User implements Serializable, Comparable<User> {
         } else {
             return 1;
         }
+    }
+    int getID() {
+        return id;
     }
 }

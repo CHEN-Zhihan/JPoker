@@ -7,38 +7,27 @@ import java.util.Set;
  * Created by zhihan on 2/24/17.
  */
 class Game {
-    private User[] users;
+    private ArrayList<User> users;
     private HashSet<Integer> cards;
-    private int target;
     private long startTime;
     private long endTime;
-    Game(User[] u) {
+    private GameManager manager;
+    private int id;
+    Game(User u, int id, GameManager manager) {
         startTime = System.nanoTime();
-        users = u;
-        initCards();
+        users = new ArrayList<>();
+        users.add(u);
+        prepareCards();
+        this.manager = manager;
+        this.id = id;
     }
 
-    private void initCards() {
-        cards = new HashSet<>();
-        Random rand = new Random();
-        cards = new HashSet<>();
-        while (cards.size() != 4) {
-            int type = rand.nextInt(4) + 1;
-            int value = rand.nextInt(13) + 1;
-            int result = value + (value >= 10 ? type * 100 : type * 10);
-            cards.add(result);
-        }
-        target = Calculator.getRandomResult(cards);
-    }
+
     HashSet<Integer> getCards() {
         return cards;
     }
 
-    int getTarget() {
-        return target;
-    }
-
-    User[] getUsers() {
+    ArrayList<User> getUsers() {
         return users;
     }
 
@@ -46,7 +35,42 @@ class Game {
         return ((double)(endTime - startTime)) / 1000000000;
     }
 
+    int getID() {return id;}
+
     void complete() {
         endTime = System.nanoTime();
+    }
+
+    void addUser(User u) {
+        users.add(u);
+    }
+
+    void start() {
+        startTime = System.nanoTime();
+    }
+
+    private void prepareCards() {
+        do {
+            generateCards();
+        } while (!Calculator.solvable(cards));
+    }
+
+    private void generateCards() {
+        cards = new HashSet<>();
+        Random rand = new Random();
+        cards = new HashSet<>();
+        HashSet<Integer> valueSet = new HashSet<>();
+        int value = 0;
+        int type = 0;
+        int result = 0;
+        while (cards.size() != 4) {
+            type = rand.nextInt(4) + 1;
+            do {
+                value = rand.nextInt(13) + 1;
+            } while (valueSet.contains(value));
+            valueSet.add(value);
+            result = value + (value >= 10 ? type * 100 : type * 10);
+            cards.add(result);
+        }
     }
 }

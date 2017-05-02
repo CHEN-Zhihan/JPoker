@@ -1,3 +1,5 @@
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -10,11 +12,13 @@ class Client {
     private String hostIP;
     private UserManager userManager;
     private User user;
-    private Game game;
-    Client(String hostIP) {
+    private JMSClient jms;
+    private GamePanel g;
+    private int port;
+    Client(String hostIP, int port) {
         try {
             Registry registry = LocateRegistry.getRegistry(hostIP);
-            userManager = (UserManager)registry.lookup("server");
+            userManager = (UserManager)registry.lookup("userManager");
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     logout();
@@ -27,22 +31,12 @@ class Client {
             System.err.println("Failed accessing RMI: " + e);
             System.exit(-1);
         }
+        this.hostIP = hostIP;
+        this.port = port;
     }
 
-    String getUsername() {
-        return user.getUsername();
-    }
-
-    int getNumGames() {
-        return user.getNumGames();
-    }
-
-    int getNumWins() {
-        return user.getNumWins();
-    }
-
-    double getAverage() {
-        return user.getAverageTime();
+    User getUser() {
+        return user;
     }
 
     int getRank() throws RemoteException {
@@ -61,6 +55,7 @@ class Client {
         if (result == UserManager.VALID) {
             user = u;
         }
+        setJMS();
         return result;
     }
 
@@ -68,9 +63,10 @@ class Client {
         password = PasswordManager.getInstance().encrypt(password);
         int result = userManager.register(username, password);
         password = null;
-        if (result == UserManager.VALID) {
-            user = new User(username);
+        if (result > 0) {
+            user = new User(result, username);
         }
+        setJMS();
         return result;
     }
 
@@ -81,13 +77,37 @@ class Client {
         }
     }
 
-    Game startGame() {
-        game = new Game(null);
-        return game;
+    void onStart(StartMessage m) {
+        g.start(m.getGame());
+    }
+
+    void onEnd(EndMessage m) {
+        ;
+    }
+
+    void onMessage(ServerMessage m) {
+        m.execute(this);
+    }
+
+    void setObserver(GamePanel g) {
+        this.g = g;
+    }
+
+    void request() {
+        ;
     }
 
     void complete() {
-        game.complete();
+        ;
+    }
+
+    private void setJMS() {
+        try {
+            jms = new JMSClient(hostIP, port, user.getID(), this);
+        } catch (NamingException | JMSException e) {
+            System.err.println("[ERROR] Cannot setup JMS Client: " + e);
+            System.exit(-1);
+        }
     }
 
 }
