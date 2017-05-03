@@ -22,11 +22,6 @@ public final class PasswordManager {
         }
     }
 
-    public synchronized boolean authenticate(char[] plaintext, char[] password) {
-        char[] encrypted = this.encrypt(plaintext);
-        return Arrays.equals(encrypted, password);
-    }
-
     synchronized static PasswordManager  getInstance() {
         if (instance == null) {
             instance = new PasswordManager();

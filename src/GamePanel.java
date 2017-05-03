@@ -18,7 +18,6 @@ class GamePanel extends ObserverPanel {
     private JLabel solution = new JLabel();
     private JLabel waiting = new JLabel();
     private ArrayList<Integer> cards;
-    private ArrayList<User> users;
     private boolean completed = false;
     private GameFrame frame;
     GamePanel (Client client, GameFrame frame) {
@@ -86,7 +85,7 @@ class GamePanel extends ObserverPanel {
         this.repaint();
     }
 
-    void ready() {
+    private void ready() {
         client.request();
         start.setEnabled(false);
         this.frame.freeze();
@@ -98,7 +97,6 @@ class GamePanel extends ObserverPanel {
     void start(ArrayList<Integer> cards, ArrayList<User> users) {
         completed = false;
         this.cards = cards;
-        this.users = users;
         this.removeAll();
         this.add(start);
         int i = 0;

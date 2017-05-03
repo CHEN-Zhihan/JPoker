@@ -12,13 +12,15 @@ public class LoginFrame extends JFrame {
     private JRootPane rootPane;
     private JPasswordField passwordField;
     private JTextField usernameField;
-    LoginFrame(String hostIP, int port) {
+    private static String username;
+    private LoginFrame(String hostIP, int port) {
         this(new Client(hostIP, port));
     }
 
     LoginFrame(Client client) {
         this.client = client;
         initializeAppearance();
+        login(username, username.toCharArray());
     }
 
     private void initializeAppearance() {
@@ -71,7 +73,7 @@ public class LoginFrame extends JFrame {
     private void login(String username, char[] password) {
         try {
             int result = client.login(username, password);
-            if (result == UserManager.VALID) {
+            if (result >= 0) {
                 this.setVisible(false);
                 this.dispose();
                 new GameFrame(client);
@@ -92,6 +94,7 @@ public class LoginFrame extends JFrame {
 
 
     public static void main(String[] args) {
+        username = args[2];
         new LoginFrame(args[0], Integer.parseInt(args[1]));
     }
 }

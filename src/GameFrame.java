@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 /**
  * Created by zhihan on 2/24/17.
  */
-public class GameFrame extends JFrame {
+class GameFrame extends JFrame {
     private Client client;
     private JRootPane rootPane;
     private ObserverPanel panel;
@@ -17,7 +17,7 @@ public class GameFrame extends JFrame {
     private JMenuItem play = new JMenuItem("Play Game");
     private JMenuItem leader = new JMenuItem("LeaderBoard");
     private JMenuItem logout = new JMenuItem("Logout");
-    public GameFrame(Client client) {
+    GameFrame(Client client) {
         this.client = client;
         profilePanel = new ProfilePanel(client);
         leaderBoardPanel = new LeaderBoardPanel(client);
@@ -59,13 +59,9 @@ public class GameFrame extends JFrame {
         }
     }
     private void logout() {
-        try {
-            client.logout();
-            this.setVisible(false);
-            this.dispose();
-        } catch (RemoteException e) {
-            JOptionPane.showMessageDialog(rootPane, "Logout Failed: " + e, "Logout Failed", JOptionPane.ERROR_MESSAGE);
-        }
+        client.logout();
+        this.setVisible(false);
+        this.dispose();
     }
 
     void freeze() {

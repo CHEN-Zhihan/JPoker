@@ -39,7 +39,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
         }
         this.manager = m;
     }
-    public User login(String username, char[] password) throws RemoteException {
+    public int login(String username, char[] password) throws RemoteException {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM COMP3402 WHERE username = ?");
             stmt.setString(1, username);
@@ -47,11 +47,11 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             if (result.next()) {
                 char[] passwordInDB = result.getString("password").toCharArray();
                 if (!Arrays.equals(password, passwordInDB)) {
-                    return new User(USER_INCORRECT_PASSWORD);
+                    return USER_INCORRECT_PASSWORD;
                 }
                 boolean hasLoggedIn = result.getBoolean("loggedIn");
                 if (hasLoggedIn) {
-                    return new User(USER_HAS_LOGGEDIN);
+                    return USER_HAS_LOGGEDIN;
                 }
                 int numGames = result.getInt("numGames");
                 int numWins = result.getInt("numWins");
@@ -59,12 +59,12 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
                 PreparedStatement s = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = TRUE WHERE username = ?");
                 s.setString(1, username);
                 s.executeUpdate();
-                return new User(result.getInt("id"), username, numGames, numWins, totalTime);
+                return result.getInt("id");
             }
-            return new User(USER_NOT_EXIST);
+            return USER_NOT_EXIST;
         } catch (SQLException e) {
             System.err.println("Error login: " + e);
-            return new User(DATABASE_ERROR);
+            return DATABASE_ERROR;
         }
     }
     public int register(String username, char[] password) throws RemoteException {
@@ -90,24 +90,20 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             return DATABASE_ERROR;
         }
     }
-    public void logout(String username) throws RemoteException {
+    public void logout(int id) throws RemoteException {
         try {
-            PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = FALSE WHERE username = ?");
-            stmt.setString(1, username);
+            PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = FALSE WHERE id = ?");
+            stmt.setInt(1, id);
             stmt.executeUpdate();
-            stmt = connection.prepareStatement("SELECT id FROM COMP3402 WHERE username = ?");
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            manager.quit(rs.getInt(1));
+            manager.quit(id);
         } catch (SQLException e) {
             System.err.println("Error logout: " + e);
         }
     }
-    public int getRank(String username) throws RemoteException {
+    public int getRank(int id) throws RemoteException {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(numWins) FROM COMP3402 WHERE numWins > (SELECT numWins FROM COMP3402 WHERE username = ?)");
-            stmt.setString(1, username);
+            PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(numWins) FROM COMP3402 WHERE numWins > (SELECT numWins FROM COMP3402 WHERE id = ?)");
+            stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
             resultSet.next();
             return resultSet.getInt(1) + 1;
@@ -121,9 +117,9 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             Statement stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT id, username, numWins, numGames, totalTime FROM COMP3402");
             String username = null;
-            int numWins = 0;
-            int numGames = 0;
-            double totalTime = 0;
+            int numWins;
+            int numGames;
+            double totalTime;
             ArrayList<User> result = new ArrayList<>();
             while (resultSet.next()) {
                 username = resultSet.getString("username");

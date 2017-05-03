@@ -6,12 +6,11 @@ import java.util.HashMap;
 /**
  * Created by zhihan on 5/3/17.
  */
-public class GameManager {
+class GameManager {
     private Game currentGame;
     private HashMap<Integer, Game> gameSet;
     private JMSServer jms;
     private int gameCounter;
-    private Thread thread;
     private InfoManager manager;
     GameManager(int port) {
         try {
@@ -20,7 +19,7 @@ public class GameManager {
             System.err.println("[ERROR] Cannot setup JMS Server: " +e);
             System.exit(-1);
         }
-        thread = new Thread(jms);
+        Thread thread = new Thread(jms);
         thread.start();
         gameSet = new HashMap<>();
     }
@@ -43,10 +42,11 @@ public class GameManager {
 
     void onRequest(RequestMessage m) {
         System.out.println("Receive request!!!");
+        User u = manager.getUser(m.getSenderID());
         if (currentGame == null) {
-            currentGame = new Game(m.getSender(), gameCounter++, this);
+            currentGame = new Game(u, gameCounter++, this);
         } else {
-            currentGame.addUser(m.getSender());
+            currentGame.addUser(u);
             if (currentGame.isReady()) {
                 start();
             }
@@ -54,10 +54,13 @@ public class GameManager {
     }
 
     void start() {
-        System.out.println("Starting game!!");
-        jms.send(new StartMessage(new ArrayList<Integer>(currentGame.getCards()), currentGame.getUsers(), currentGame.getID()));
-        gameSet.put(currentGame.getID(), currentGame);
-        currentGame = null;
+        if (currentGame != null) {
+            System.out.println("Starting game!!");
+            jms.send(new StartMessage(new ArrayList<>(currentGame.getCards()), currentGame.getUsers(), currentGame.getID()));
+            currentGame.start();
+            gameSet.put(currentGame.getID(), currentGame);
+            currentGame = null;
+        }
     }
 
     void onFinish(FinishedMessage m) {
@@ -72,7 +75,8 @@ public class GameManager {
                     manager.update(u.getID());
                 }
             }
-            jms.send(new EndMessage(m.getName(), m.getSolution(), m.getGameID()));
+            User u = manager.getUser(m.getSenderID());
+            jms.send(new EndMessage(game.getUsers(), u.getUsername(), m.getSolution()));
         }
     }
 }

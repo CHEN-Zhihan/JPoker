@@ -12,9 +12,10 @@ public interface UserManager extends Remote {
     int VALID = 4;
     int HAS_REGISTERED = -4;
     int DATABASE_ERROR = -1;
-    User login(String username, char[] password) throws RemoteException;
+    int login(String username, char[] password) throws RemoteException;
     int register(String username, char[] password) throws RemoteException;
-    void logout(String username) throws RemoteException;
-    int getRank(String username) throws RemoteException;
+    User getUser(int id) throws RemoteException;
+    void logout(int id) throws RemoteException;
+    int getRank(int id) throws RemoteException;
     ArrayList<User> getAllUsers() throws RemoteException;
 }

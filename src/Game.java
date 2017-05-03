@@ -11,13 +11,13 @@ class Game implements Serializable {
     private long endTime;
     private int id;
     private boolean ready;
-    private transient Timer timer = new Timer();
     Game(User u, int id, GameManager manager) {
         startTime = System.nanoTime();
         users = new ArrayList<>();
         users.add(u);
         prepareCards();
         this.id = id;
+        Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -27,7 +27,7 @@ class Game implements Serializable {
                     manager.start();
                 }
             }
-        }, 1000);
+        }, 10000);
     }
 
 
@@ -83,9 +83,9 @@ class Game implements Serializable {
         Random rand = new Random();
         HashSet<Integer> set = new HashSet<>();
         HashSet<Integer> valueSet = new HashSet<>();
-        int value = 0;
-        int type = 0;
-        int result = 0;
+        int value;
+        int type;
+        int result;
         while (set.size() != 4) {
             type = rand.nextInt(4) + 1;
             do {
@@ -95,7 +95,6 @@ class Game implements Serializable {
             result = value + (value >= 10 ? type * 100 : type * 10);
             set.add(result);
         }
-        cards = new ArrayList<Integer>(set);
+        cards = new ArrayList<>(set);
     }
-
 }

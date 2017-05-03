@@ -82,20 +82,13 @@ public class RegisterFrame extends JFrame{
     }
 
     private void register(String username, char[] password) {
-        try{
-            int result = client.register(username, password);
-            if (result > 0) {
-                this.setVisible(false);
-                this.dispose();
-                new GameFrame(client);
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Register Failed: User exist","Register Failed", JOptionPane.ERROR_MESSAGE);
-                passwordField1.setText("");
-                passwordField2.setText("");
-                usernameField.setText("");
-            }
-        } catch (RemoteException e) {
-            JOptionPane.showMessageDialog(rootPane, "Register Failed: " + e, "Register Failed", JOptionPane.ERROR_MESSAGE);
+        int result = client.register(username, password);
+        if (result > 0) {
+            this.setVisible(false);
+            this.dispose();
+            new GameFrame(client);
+        } else if (result != -1){
+            JOptionPane.showMessageDialog(rootPane, "Register Failed: User exist","Register Failed", JOptionPane.ERROR_MESSAGE);
             passwordField1.setText("");
             passwordField2.setText("");
             usernameField.setText("");

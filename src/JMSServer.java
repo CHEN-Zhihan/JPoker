@@ -29,46 +29,31 @@ public class JMSServer extends JMSManager implements Runnable {
             try {
                 Message m = queueReader.receive();
                 ClientMessage clientMessage = (ClientMessage) ((ObjectMessage)m).getObject();
-                if (clientMessage instanceof FinishedMessage) {
-                    clientMessage = (FinishedMessage)clientMessage;
-                } else {
-                    clientMessage = (RequestMessage)clientMessage;
-                }
                 manager.onMessage(clientMessage);
             } catch (JMSException e) {
                 System.err.println("[ERROR] Failed to receive message: " + e);
-                ;
             }
         }
     }
 
-    void send(EndMessage m) {
-        try {
-            Message message = createMessage(m);
-            message.setIntProperty("GameID", m.getGameID());
-            topicSender.send(createMessage(m));
-        } catch (JMSException e) {
-            System.err.println("[ERROR] Failed to broadcast message: " + e);
-        }
-    }
-
-    void send(StartMessage m) {
+    void send(ServerMessage m) {
         try {
             Message message = createMessage(m);
             ArrayList<User> users = m.getUsers();
             for (int i = 0; i != users.size(); ++i) {
                 message.setIntProperty("Receiver" + i, users.get(i).getID());
-                System.out.println("Receiver" + i + " " + users.get(i).getID());
+                System.out.println("Receiver" + i + " " + message.getIntProperty("Receiver" + i));
             }
             for (int i = 3; i != users.size() - 1; --i) {
                 message.setIntProperty("Receiver" + i, -1);
-                System.out.println("Receiver" + i + " -1");
+                System.out.println("Receiver" + i + " " + message.getIntProperty("Receiver" + i));
             }
-            topicSender.send(createMessage(m));
+            topicSender.send(message);
         } catch (JMSException e) {
             System.err.println("[ERROR] Failed to broadcast message: " + e);
         }
     }
+
 
     void shutdown() {
         running = false;

@@ -39,13 +39,18 @@ class Calculator {
         for (ArrayList<Integer> n : permuations) {
             for (ArrayList<Character> op : operatorPerm) {
                 if (solvable(n, op)) {
-                    for (Integer i : n) {
-                        System.out.print(i + " ");
-                    }
-                    for (Character c : op) {
-                        System.out.print(c + " ");
-                    }
-                    System.out.println();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("((");
+                    sb.append(n.get(3));
+                    sb.append(op.get(0));
+                    sb.append(n.get(2));
+                    sb.append(')');
+                    sb.append(op.get(1));
+                    sb.append(n.get(1));
+                    sb.append(')');
+                    sb.append(op.get(2));
+                    sb.append(n.get(0));
+                    System.out.println(sb.toString());
                     return true;
                 }
             }
@@ -178,9 +183,9 @@ class Calculator {
             set.add(sub);
         } else {
             for (int i = 0; i < L; i++) {
-                ArrayList<Integer> ab = new ArrayList<Integer>(sub);
+                ArrayList<Integer> ab = new ArrayList<>(sub);
                 ab.add(a.get(i));
-                ArrayList<Integer> bc = new ArrayList<Integer>(a);
+                ArrayList<Integer> bc = new ArrayList<>(a);
                 bc.remove(i);
                 perm(ab, bc, set);
             }
@@ -193,9 +198,9 @@ class Calculator {
             set.add(sub);
         } else {
             for (int i = 0; i < L; i++) {
-                ArrayList<Character> ab = new ArrayList<Character>(sub);
+                ArrayList<Character> ab = new ArrayList<>(sub);
                 ab.add(a.get(i));
-                ArrayList<Character> bc = new ArrayList<Character>(a);
+                ArrayList<Character> bc = new ArrayList<>(a);
                 bc.remove(i);
                 permOpr(ab, bc, set);
             }

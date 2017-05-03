@@ -10,20 +10,14 @@ import java.rmi.RemoteException;
  */
 public class ProfilePanel extends ObserverPanel {
     private Client client;
-    public ProfilePanel(Client client) {
+    ProfilePanel(Client client) {
         this.client = client;
         this.initializeAppearance();
     }
 
     protected void initializeAppearance() {
         String[] columnNames = {"Rank", "Username", "Games won", "Games Played", "Average winning time"};
-        int rank = -1;
-        try {
-            rank = client.getRank();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this.getRootPane(), "Failed to get rank: " + e, "Failed to get rank", JOptionPane.ERROR_MESSAGE);
-        }
+        int rank = client.getRank();
         User u = client.getUser();
         Object[][] data = {{rank, u.getUsername(), u.getNumWins(), u.getNumGames(), u.getAverageTime()>0?u.getAverageTime():"N/A"}};
         TableModel model = new DefaultTableModel(data, columnNames) {

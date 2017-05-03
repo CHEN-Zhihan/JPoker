@@ -4,23 +4,27 @@ import java.util.ArrayList;
 /**
  * Created by zhihan on 5/3/17.
  */
-public abstract class ServerMessage implements Serializable {
+abstract class ServerMessage implements Serializable {
+    private ArrayList<User> users;
+
     abstract void execute(Client c);
+    ServerMessage(ArrayList<User> users) {
+        this.users = users;
+    }
+    ArrayList<User> getUsers() {
+        return users;
+    }
+
 }
 
 
 class EndMessage extends ServerMessage {
     private String winner;
     private String solution;
-    private int gameID;
-    EndMessage(String winner, String solution, int id) {
+    EndMessage(ArrayList<User> users, String winner, String solution) {
+        super(users);
         this.winner = winner;
         this.solution = solution;
-        this.gameID = id;
-    }
-
-    int getGameID() {
-        return gameID;
     }
     String getWinner() {
         return winner;
@@ -36,13 +40,11 @@ class EndMessage extends ServerMessage {
 
 class StartMessage extends ServerMessage {
     private ArrayList<Integer> cards;
-    private ArrayList<User> users;
-    private int game;
-
+    private int gameID;
     StartMessage(ArrayList<Integer> cards, ArrayList<User> users, int id) {
+        super(users);
         this.cards = cards;
-        this.users = users;
-        this.game = id;
+        gameID = id;
     }
 
     void execute(Client c) {
@@ -50,14 +52,10 @@ class StartMessage extends ServerMessage {
     }
 
     int getGameID() {
-        return game;
+        return gameID;
     }
 
     ArrayList<Integer> getCards() {
         return cards;
-    }
-
-    ArrayList<User> getUsers() {
-        return users;
     }
 }

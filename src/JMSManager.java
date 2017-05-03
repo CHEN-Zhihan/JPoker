@@ -10,18 +10,17 @@ import java.io.Serializable;
 
 
 class JMSManager {
-    private Context context;
-    private ConnectionFactory factory;
-    protected Queue queue;
-    protected Topic topic;
+    Queue queue;
+    Topic topic;
     private Connection connection;
-    protected Session session;
+    Session session;
 
     JMSManager(String host, int port) throws NamingException, JMSException {
         System.setProperty("org.omg.CORBA.ORBInitialHost", host);
         System.setProperty("org.omg.CORBA.ORBInitialPort", Integer.toString(port));
+        ConnectionFactory factory;
         try {
-            context = new InitialContext();
+            Context context = new InitialContext();
             factory = (ConnectionFactory)context.lookup("jms/JPoker24GameConnectionFactory");
             queue = (Queue)context.lookup("jms/JPoker24GameQueue");
             topic = (Topic)context.lookup("jms/JPoker24GameTopic");
@@ -39,12 +38,12 @@ class JMSManager {
         }
     }
 
-    protected void close() {
+    void close() {
         if (connection != null) {
             try {
                 connection.close();
             } catch (JMSException e) {
-                ;
+
             }
         }
     }

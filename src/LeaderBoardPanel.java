@@ -11,20 +11,15 @@ import java.util.Collections;
 public class LeaderBoardPanel extends ObserverPanel {
     private Client client;
     private ArrayList<User> users;
-    public LeaderBoardPanel(Client client) {
+    LeaderBoardPanel(Client client) {
         this.client = client;
         initializeAppearance();
     }
 
     protected void initializeAppearance() {
         String[] columnNames = {"Rank", "Username", "Games won", "Games Played", "Average winning time"};
-        try {
-            users = client.getAllUsers();
-            Collections.sort(users);
-        } catch (RemoteException e) {
-            JOptionPane.showMessageDialog(this.getRootPane(), "Failed to retrieve leader board: " + e, "Failed to retrieve leader board", JOptionPane.ERROR_MESSAGE);
-            users = new ArrayList<>();
-        }
+        users = client.getAllUsers();
+        Collections.sort(users);
         Object[][] data = new Object[users.size()][5];
         int[] ranks = getRanks();
         for (int i = 0; i != users.size(); ++i) {

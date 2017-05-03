@@ -23,35 +23,22 @@ public class JMSClient extends JMSManager implements MessageListener{
         selector = "Receiver0 = " + id + " OR Receiver1 = " + id + " OR Receiver2 = " + id + " OR Receiver3 = " + id;
         setTopicReader();
     }
-    void setTopicReader(int gameID){
-        if (topicReader != null) {
-            try {
-                topicReader.close();
-            } catch (JMSException e) {
-                ;
-            }
-        }
+    private void setTopicReader(){
         try {
-            String s = "GameID  = " + gameID +" OR " + selector;
-            System.out.println(s);
-            topicReader = session.createConsumer(topic, s);
+            System.out.println(selector);
+            topicReader = session.createConsumer(topic, selector);
             topicReader.setMessageListener(this);
         } catch (JMSException e) {
             System.err.println("Failed reading from topic: " + e);
         }
     }
-    private void setTopicReader() {
-        setTopicReader(-1);
-    }
 
     public void onMessage(Message m) {
         try {
-            ServerMessage serverMessage = (ServerMessage)((ObjectMessage)m).getObject();
-            if (serverMessage instanceof EndMessage) {
-                serverMessage = (EndMessage)serverMessage;
-            } else {
-                serverMessage = (StartMessage)serverMessage;
+            for (int i = 0; i != 4; ++i) {
+                System.out.println("Receiver" + i + " " + m.getIntProperty("Receiver" + i));
             }
+            ServerMessage serverMessage = (ServerMessage)((ObjectMessage)m).getObject();
             c.onMessage(serverMessage);
         } catch (JMSException e) {
             System.err.println("[ERROR] Error receiving message");

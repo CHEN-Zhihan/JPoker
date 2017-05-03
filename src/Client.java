@@ -11,7 +11,7 @@ import java.util.ArrayList;
 class Client {
     private String hostIP;
     private UserManager userManager;
-    private User user;
+    private int id = -1;
     private JMSClient jms;
     private GamePanel g;
     private int gameID;
@@ -21,12 +21,7 @@ class Client {
             Registry registry = LocateRegistry.getRegistry(hostIP);
             userManager = (UserManager)registry.lookup("userManager");
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                try {
-                    logout();
-                } catch (RemoteException e) {
-                    System.err.println("Failed logout: ");
-                    System.exit(-1);
-                }
+                logout();
             }));
         } catch (Exception e) {
             System.err.println("Failed accessing RMI: " + e);
@@ -37,52 +32,79 @@ class Client {
     }
 
     User getUser() {
-        return user;
+        try {
+            return userManager.getUser(id);
+        } catch (RemoteException e) {
+            System.err.println("[ERROR] Cannot get user " + e);
+            return null;
+        }
     }
 
-    int getRank() throws RemoteException {
-        return userManager.getRank(user.getUsername());
+    int getRank() {
+        try {
+            return userManager.getRank(id);
+        } catch (RemoteException e) {
+            System.err.println("[ERROR] Cannot get rank of " + id + " " + e);
+            return -1;
+        }
     }
 
-    ArrayList<User> getAllUsers() throws RemoteException{
-        return userManager.getAllUsers();
+    ArrayList<User> getAllUsers() {
+        try {
+            return userManager.getAllUsers();
+        } catch (RemoteException e) {
+            System.err.println("[ERROR] Cannot get all users " + e);
+            return new ArrayList<>();
+        }
     }
 
     int login(String username, char[] password) throws RemoteException{
         password = PasswordManager.getInstance().encrypt(password);
-        User u = userManager.login(username, password);
-        password = null;
-        int result = u.getValidFlag();
-        if (result == UserManager.VALID) {
-            user = u;
+        int i;
+        try {
+            i = userManager.login(username, password);
+        } catch (RemoteException e) {
+            System.err.println("[ERROR] Cannot login " + e);
+            return UserManager.DATABASE_ERROR;
+        }
+        if (i >= 0) {
+            id = i;
             setJMS();
         }
-
-        return result;
+        return i;
     }
 
-    int register(String username, char[] password) throws RemoteException {
+    int register(String username, char[] password) {
         password = PasswordManager.getInstance().encrypt(password);
-        int result = userManager.register(username, password);
-        password = null;
+        int result;
+        try {
+            result = userManager.register(username, password);
+        } catch (RemoteException e) {
+            System.err.println("[ERROR] Cannot register " + e);
+            return UserManager.DATABASE_ERROR;
+        }
         if (result > 0) {
-            user = new User(result, username);
+            id = result;
             setJMS();
         }
         return result;
     }
 
-    void logout() throws RemoteException{
-        if (user != null) {
-            userManager.logout(user.getUsername());
-            user = null;
+    void logout() {
+        try {
+            if (id != -1) {
+                userManager.logout(id);
+                id = -1;
+            }
+        } catch (RemoteException e) {
+            System.err.println("[ERROR] Cannot logout " + e);
+            System.exit(-1);
         }
     }
 
     void onStart(StartMessage m) {
         gameID = m.getGameID();
         System.out.println("Starting game!!!");
-        jms.setTopicReader(gameID);
         g.start(m.getCards(), m.getUsers());
     }
 
@@ -100,17 +122,17 @@ class Client {
     }
 
     void request() {
-        jms.sendMessage(new RequestMessage(user));
+        jms.sendMessage(new RequestMessage(id));
         System.out.println("Client sent!!");
     }
 
     void complete(String solution) {
-        jms.sendMessage(new FinishedMessage(user.getID(), user.getUsername(), gameID, solution));
+        jms.sendMessage(new FinishedMessage(id, gameID, solution));
     }
 
     private void setJMS() {
         try {
-            jms = new JMSClient(hostIP, port, user.getID(), this);
+            jms = new JMSClient(hostIP, port, id, this);
         } catch (NamingException | JMSException e) {
             System.err.println("[ERROR] Cannot setup JMS Client: " + e);
             System.exit(-1);
