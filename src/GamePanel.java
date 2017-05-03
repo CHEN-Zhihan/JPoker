@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -15,19 +16,26 @@ class GamePanel extends ObserverPanel {
     private JLabel result = new JLabel();
     private JLabel winner = new JLabel();
     private JLabel solution = new JLabel();
-    private Game game;
+    private JLabel waiting = new JLabel();
+    private ArrayList<Integer> cards;
+    private ArrayList<User> users;
     private boolean completed = false;
-    GamePanel (Client client) {
+    private GameFrame frame;
+    GamePanel (Client client, GameFrame frame) {
         this.client = client;
         initializeAppearance();
         client.setObserver(this);
+        this.frame = frame;
+
     }
 
     protected void initializeAppearance() {
         start = new JButton("New Game");
         this.setLayout(null);
         this.add(start);
-        start.setBounds(250, 0, 150, 30);
+        start.setBounds(150, 0, 150, 30);
+        waiting.setText("Waiting for players");
+        waiting.setBounds(150, 100, 150, 30);
         start.addActionListener((ActionEvent e) -> this.ready());
         input.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -45,7 +53,7 @@ class GamePanel extends ObserverPanel {
    //             check();
             }
             private  void check() {
-                int outcome = Calculator.calculate(input.getText(), game.getCards());
+                int outcome = Calculator.calculate(input.getText(), cards);
                 if (outcome == Calculator.ILLEGAL) {
                     result.setText("=");
                     return;
@@ -63,13 +71,6 @@ class GamePanel extends ObserverPanel {
         });
     }
 
-
-    void start(Game g) {
-    	completed = false;
-        game = g;
-        prepareGameView(game);
-    }
-
     void end(String winner, String solution) {
         this.removeAll();
         this.add(start);
@@ -80,17 +81,26 @@ class GamePanel extends ObserverPanel {
         this.winner.setText(winner);
         this.solution.setText(solution);
         start.setEnabled(true);
+        this.frame.defreeze();
+        this.revalidate();
+        this.repaint();
     }
 
     void ready() {
         client.request();
         start.setEnabled(false);
+        this.frame.freeze();
+        this.add(waiting);
+        this.revalidate();
+        this.repaint();
     }
 
-    private void prepareGameView(Game g) {
+    void start(ArrayList<Integer> cards, ArrayList<User> users) {
+        completed = false;
+        this.cards = cards;
+        this.users = users;
         this.removeAll();
         this.add(start);
-        HashSet<Integer> cards = g.getCards();
         int i = 0;
         for (Integer card : cards) {
             ImageIcon image = new ImageIcon("images/card_" + card + ".gif");

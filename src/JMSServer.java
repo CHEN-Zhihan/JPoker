@@ -2,6 +2,7 @@
 
 import javax.jms.*;
 import javax.naming.NamingException;
+import java.util.ArrayList;
 
 /**
  * Created by zhihan on 5/3/17.
@@ -41,8 +42,28 @@ public class JMSServer extends JMSManager implements Runnable {
         }
     }
 
-    void send(ServerMessage m) {
+    void send(EndMessage m) {
         try {
+            Message message = createMessage(m);
+            message.setIntProperty("GameID", m.getGameID());
+            topicSender.send(createMessage(m));
+        } catch (JMSException e) {
+            System.err.println("[ERROR] Failed to broadcast message: " + e);
+        }
+    }
+
+    void send(StartMessage m) {
+        try {
+            Message message = createMessage(m);
+            ArrayList<User> users = m.getUsers();
+            for (int i = 0; i != users.size(); ++i) {
+                message.setIntProperty("Receiver" + i, users.get(i).getID());
+                System.out.println("Receiver" + i + " " + users.get(i).getID());
+            }
+            for (int i = 3; i != users.size() - 1; --i) {
+                message.setIntProperty("Receiver" + i, -1);
+                System.out.println("Receiver" + i + " -1");
+            }
             topicSender.send(createMessage(m));
         } catch (JMSException e) {
             System.err.println("[ERROR] Failed to broadcast message: " + e);

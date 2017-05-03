@@ -9,6 +9,7 @@ public class JMSClient extends JMSManager implements MessageListener{
     private MessageProducer queueSender;
     private MessageConsumer topicReader;
     private Client c;
+    private String selector;
     JMSClient(String ip, int port, int id, Client c) throws NamingException, JMSException{
         super(ip, port);
         this.id = id;
@@ -19,27 +20,28 @@ public class JMSClient extends JMSManager implements MessageListener{
             throw e;
         }
         this.c = c;
+        selector = "Receiver0 = " + id + " OR Receiver1 = " + id + " OR Receiver2 = " + id + " OR Receiver3 = " + id;
         setTopicReader();
     }
-    void setTopicReader(int roomID) throws JMSException {
+    void setTopicReader(int gameID){
+        if (topicReader != null) {
+            try {
+                topicReader.close();
+            } catch (JMSException e) {
+                ;
+            }
+        }
         try {
-            String selector = "roomID  = " + roomID + " OR assignTo = " + id;
-            topicReader = session.createConsumer(topic, selector);
+            String s = "GameID  = " + gameID +" OR " + selector;
+            System.out.println(s);
+            topicReader = session.createConsumer(topic, s);
             topicReader.setMessageListener(this);
         } catch (JMSException e) {
             System.err.println("Failed reading from topic: " + e);
-            throw e;
         }
     }
-    void setTopicReader() throws JMSException {
-        try {
-        //    String selector = "assignTo = " + id;
-            topicReader = session.createConsumer(topic);
-            topicReader.setMessageListener(this);
-        } catch (JMSException e) {
-            System.err.println("Failed reading from topic: " + e);
-            throw e;
-        }
+    private void setTopicReader() {
+        setTopicReader(-1);
     }
 
     public void onMessage(Message m) {

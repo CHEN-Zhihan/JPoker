@@ -32,7 +32,7 @@ class Calculator {
         ops.add('/');
     }
 
-    static boolean solvable(HashSet<Integer> cards) {
+    static boolean solvable(ArrayList<Integer> cards) {
         nums = cardsToNums(cards);
         HashSet<ArrayList<Integer> > permuations = getPermutations(nums);
         HashSet<ArrayList<Character> > operatorPerm = getPermutations();
@@ -83,7 +83,7 @@ class Calculator {
         return stack.peek() == Math.floor(stack.peek()) && stack.peek().intValue() == 24;
     }
 
-    private static ArrayList<Integer> cardsToNums(Set<Integer> cards) {
+    private static ArrayList<Integer> cardsToNums(ArrayList<Integer> cards) {
         ArrayList<Integer> nums = new ArrayList<>();
         for (Integer i : cards) {
             nums.add(i > 100 ? i % 100 : i % 10);
@@ -91,14 +91,14 @@ class Calculator {
         return nums;
     }
 
-    static int calculate(String input, Set<Integer> cards) {
+    static int calculate(String input, ArrayList<Integer> cards) {
         nums = cardsToNums(cards);
         seen = new ArrayList<>();
         StringBuilder expression = new StringBuilder();
         for (int i = 0; i < input.length(); ++i) {
             if (Character.isDigit(input.charAt(i))) {
                 int j = i + 1;
-                int value = 0;
+                int value;
                 if (j != input.length() && Character.isDigit(input.charAt(j))) {
                     while (j != input.length() && Character.isDigit(input.charAt(j))) {
                         ++j;
@@ -131,7 +131,7 @@ class Calculator {
             if (engine.eval(expression.toString()) == null) {
                 return ILLEGAL;
             }
-            Double result = null;
+            Double result;
             try {
                 if (engine.eval(expression.toString()) instanceof Integer) {
                     result = ((Integer) engine.eval(expression.toString())).doubleValue();

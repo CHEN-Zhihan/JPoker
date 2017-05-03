@@ -11,7 +11,8 @@ import java.util.*;
 public class DBManager extends UnicastRemoteObject implements UserManager, InfoManager {
 
     private Connection connection;
-    DBManager() throws RemoteException {
+    private GameManager manager;
+    DBManager(GameManager m) throws RemoteException {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             connection = DriverManager.getConnection("jdbc:mysql://localhost/COMP3402", "COMP3402", "password");
@@ -26,7 +27,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
                 s.execute("UPDATE COMP3402 SET loggedIn=FALSE");
                 connection.close();
             } catch (SQLException e) {
-                ;
+
             }
         }));
         System.setSecurityManager(new SecurityManager());
@@ -36,7 +37,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             System.err.println("[ERROR] cannot bind loginManager: " + e);
             System.exit(-1);
         }
-
+        this.manager = m;
     }
     public User login(String username, char[] password) throws RemoteException {
         try {
@@ -94,13 +95,18 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = FALSE WHERE username = ?");
             stmt.setString(1, username);
             stmt.executeUpdate();
+            stmt = connection.prepareStatement("SELECT id FROM COMP3402 WHERE username = ?");
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            manager.quit(rs.getInt(1));
         } catch (SQLException e) {
             System.err.println("Error logout: " + e);
         }
     }
     public int getRank(String username) throws RemoteException {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(numWins) FROM COMP3402 WHERE numWins < (SELECT numWins FROM COMP3402 WHERE username = ?)");
+            PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(numWins) FROM COMP3402 WHERE numWins > (SELECT numWins FROM COMP3402 WHERE username = ?)");
             stmt.setString(1, username);
             ResultSet resultSet = stmt.executeQuery();
             resultSet.next();

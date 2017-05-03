@@ -61,12 +61,12 @@ public class LeaderBoardPanel extends ObserverPanel {
             while (index + j + 1 != users.size() && users.get(index + j).compareTo(users.get(index + j + 1)) == 0) {
                 ++j;
             }
+            ++j;
             for (int i = index; i != index + j; ++i) {
                 ranks[i] = cumulation;
             }
             cumulation += j;
             index += j;
-            index += 1;
         }
         ranks[users.size() - 1] = (users.size() == 1) ? 1 :
                 ((users.get(users.size() - 1).compareTo(users.get(users.size() - 2)) == 0) ? ranks[users.size() - 2] :

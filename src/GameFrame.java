@@ -12,21 +12,21 @@ public class GameFrame extends JFrame {
     private ProfilePanel profilePanel;
     private LeaderBoardPanel leaderBoardPanel;
     private GamePanel gamePanel;
+    private JMenuBar menuBar = new JMenuBar();
+    private JMenuItem profile = new JMenuItem("User Profile");
+    private JMenuItem play = new JMenuItem("Play Game");
+    private JMenuItem leader = new JMenuItem("LeaderBoard");
+    private JMenuItem logout = new JMenuItem("Logout");
     public GameFrame(Client client) {
         this.client = client;
         profilePanel = new ProfilePanel(client);
         leaderBoardPanel = new LeaderBoardPanel(client);
-        gamePanel = new GamePanel(client);
+        gamePanel = new GamePanel(client, this);
         initializeAppearance();
     }
 
     private void initializeAppearance() {
         rootPane = this.getRootPane();
-        JMenuBar menuBar = new JMenuBar();
-        JMenuItem profile = new JMenuItem("User Profile");
-        JMenuItem play = new JMenuItem("Play Game");
-        JMenuItem leader = new JMenuItem("LeaderBoard");
-        JMenuItem logout = new JMenuItem("Logout");
         menuBar.add(profile);
         menuBar.add(play);
         menuBar.add(leader);
@@ -66,5 +66,23 @@ public class GameFrame extends JFrame {
         } catch (RemoteException e) {
             JOptionPane.showMessageDialog(rootPane, "Logout Failed: " + e, "Logout Failed", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    void freeze() {
+        menuBar.setEnabled(false);
+        leader.setEnabled(false);
+        profile.setEnabled(false);
+        play.setEnabled(false);
+        this.revalidate();
+        this.repaint();
+    }
+
+    void defreeze() {
+        menuBar.setEnabled(true);
+        leader.setEnabled(true);
+        profile.setEnabled(true);
+        play.setEnabled(true);
+        this.revalidate();
+        this.repaint();
     }
 }

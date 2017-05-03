@@ -14,7 +14,7 @@ class Client {
     private User user;
     private JMSClient jms;
     private GamePanel g;
-    private Game game;
+    private int gameID;
     private int port;
     Client(String hostIP, int port) {
         try {
@@ -80,9 +80,10 @@ class Client {
     }
 
     void onStart(StartMessage m) {
-        game = m.getGame();
+        gameID = m.getGameID();
         System.out.println("Starting game!!!");
-        g.start(game);
+        jms.setTopicReader(gameID);
+        g.start(m.getCards(), m.getUsers());
     }
 
     void onEnd(EndMessage m) {
@@ -104,7 +105,7 @@ class Client {
     }
 
     void complete(String solution) {
-        jms.sendMessage(new FinishedMessage(user, game.getID(), solution));
+        jms.sendMessage(new FinishedMessage(user.getID(), user.getUsername(), gameID, solution));
     }
 
     private void setJMS() {

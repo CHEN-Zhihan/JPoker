@@ -6,7 +6,7 @@ import java.util.*;
  */
 class Game implements Serializable {
     private ArrayList<User> users;
-    private HashSet<Integer> cards;
+    private ArrayList<Integer> cards;
     private long startTime;
     private long endTime;
     private int id;
@@ -31,7 +31,7 @@ class Game implements Serializable {
     }
 
 
-    HashSet<Integer> getCards() {
+    ArrayList<Integer> getCards() {
         return cards;
     }
 
@@ -64,6 +64,15 @@ class Game implements Serializable {
         startTime = System.nanoTime();
     }
 
+    void removeUser(int id) {
+        for (int i = 0; i != users.size(); ++i) {
+            if (users.get(i).getID() == id) {
+                users.remove(i);
+                break;
+            }
+        }
+    }
+
     private void prepareCards() {
         do {
             generateCards();
@@ -71,21 +80,22 @@ class Game implements Serializable {
     }
 
     private void generateCards() {
-        cards = new HashSet<>();
         Random rand = new Random();
-        cards = new HashSet<>();
+        HashSet<Integer> set = new HashSet<>();
         HashSet<Integer> valueSet = new HashSet<>();
         int value = 0;
         int type = 0;
         int result = 0;
-        while (cards.size() != 4) {
+        while (set.size() != 4) {
             type = rand.nextInt(4) + 1;
             do {
                 value = rand.nextInt(13) + 1;
             } while (valueSet.contains(value));
             valueSet.add(value);
             result = value + (value >= 10 ? type * 100 : type * 10);
-            cards.add(result);
+            set.add(result);
         }
+        cards = new ArrayList<Integer>(set);
     }
+
 }

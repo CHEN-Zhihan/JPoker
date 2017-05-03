@@ -1,5 +1,6 @@
 import javax.jms.JMSException;
 import javax.naming.NamingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -31,6 +32,15 @@ public class GameManager {
         m.execute(this);
     }
 
+    void quit(int i) {
+        if (currentGame != null) {
+            currentGame.removeUser(i);
+            if (currentGame.getUsers().size() == 0) {
+                currentGame = null;
+            }
+        }
+    }
+
     void onRequest(RequestMessage m) {
         System.out.println("Receive request!!!");
         if (currentGame == null) {
@@ -45,7 +55,7 @@ public class GameManager {
 
     void start() {
         System.out.println("Starting game!!");
-        jms.send(new StartMessage(currentGame));
+        jms.send(new StartMessage(new ArrayList<Integer>(currentGame.getCards()), currentGame.getUsers(), currentGame.getID()));
         gameSet.put(currentGame.getID(), currentGame);
         currentGame = null;
     }
@@ -56,13 +66,13 @@ public class GameManager {
             gameSet.remove(m.getGameID());
             game.complete();
             double time = game.getDuration();
-            manager.update(m.getSender().getID(), time);
+            manager.update(m.getSenderID(), time);
             for (User u:game.getUsers()) {
-                if (u.getID() != m.getSender().getID()) {
+                if (u.getID() != m.getSenderID()) {
                     manager.update(u.getID());
                 }
             }
-            jms.send(new EndMessage(m.getSender().getUsername(), m.getSolution()));
+            jms.send(new EndMessage(m.getName(), m.getSolution(), m.getGameID()));
         }
     }
 }
