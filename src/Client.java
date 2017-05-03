@@ -55,8 +55,9 @@ class Client {
         int result = u.getValidFlag();
         if (result == UserManager.VALID) {
             user = u;
+            setJMS();
         }
-        setJMS();
+
         return result;
     }
 
@@ -66,8 +67,8 @@ class Client {
         password = null;
         if (result > 0) {
             user = new User(result, username);
+            setJMS();
         }
-        setJMS();
         return result;
     }
 
@@ -80,6 +81,7 @@ class Client {
 
     void onStart(StartMessage m) {
         game = m.getGame();
+        System.out.println("Starting game!!!");
         g.start(game);
     }
 
@@ -88,6 +90,7 @@ class Client {
     }
 
     void onMessage(ServerMessage m) {
+
         m.execute(this);
     }
 
@@ -97,6 +100,7 @@ class Client {
 
     void request() {
         jms.sendMessage(new RequestMessage(user));
+        System.out.println("Client sent!!");
     }
 
     void complete(String solution) {

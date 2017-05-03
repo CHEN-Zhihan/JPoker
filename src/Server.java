@@ -7,8 +7,8 @@ public class Server {
 
     Server(int port) {
         try {
-            DBManager db = new DBManager();
-            new GameManager(port, db);
+            GameManager gm = new GameManager(port);
+            gm.setInfoManager(new DBManager());
         } catch (RemoteException e) {
             System.err.println("Error setting up userManagerImpl: " + e);
             System.exit(-1);

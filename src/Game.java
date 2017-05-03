@@ -1,16 +1,17 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Created by zhihan on 2/24/17.
  */
-class Game {
+class Game implements Serializable {
     private ArrayList<User> users;
     private HashSet<Integer> cards;
     private long startTime;
     private long endTime;
     private int id;
     private boolean ready;
-    private Timer timer = new Timer();
+    private transient Timer timer = new Timer();
     Game(User u, int id, GameManager manager) {
         startTime = System.nanoTime();
         users = new ArrayList<>();
@@ -20,9 +21,13 @@ class Game {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                System.out.println("wake up!!!");
                 ready = true;
+                if (users.size() >= 2) {
+                    manager.start();
+                }
             }
-        }, 100000);
+        }, 1000);
     }
 
 

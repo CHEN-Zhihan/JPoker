@@ -49,11 +49,11 @@ public class User implements Serializable, Comparable<User> {
     String getUsername() {return username; }
     public int compareTo(User another) {
         if (numWins < another.getNumWins()) {
-            return -1;
+            return 1;
         } else if (numWins == another.getNumWins()) {
             return 0;
         } else {
-            return 1;
+            return -1;
         }
     }
     int getID() {

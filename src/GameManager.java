@@ -12,33 +12,42 @@ public class GameManager {
     private int gameCounter;
     private Thread thread;
     private InfoManager manager;
-    GameManager(int port, InfoManager manager) {
+    GameManager(int port) {
         try {
             jms = new JMSServer(port, this);
         } catch (JMSException | NamingException e) {
             System.err.println("[ERROR] Cannot setup JMS Server: " +e);
             System.exit(-1);
         }
-        this.manager = manager;
         thread = new Thread(jms);
         thread.start();
+        gameSet = new HashMap<>();
     }
 
+    void setInfoManager(InfoManager m) {
+        manager = m;
+    }
     void onMessage(ClientMessage m) {
         m.execute(this);
     }
 
     void onRequest(RequestMessage m) {
+        System.out.println("Receive request!!!");
         if (currentGame == null) {
             currentGame = new Game(m.getSender(), gameCounter++, this);
         } else {
             currentGame.addUser(m.getSender());
             if (currentGame.isReady()) {
-                jms.send(new StartMessage(currentGame));
-                gameSet.put(currentGame.getID(), currentGame);
-                currentGame = null;
+                start();
             }
         }
+    }
+
+    void start() {
+        System.out.println("Starting game!!");
+        jms.send(new StartMessage(currentGame));
+        gameSet.put(currentGame.getID(), currentGame);
+        currentGame = null;
     }
 
     void onFinish(FinishedMessage m) {

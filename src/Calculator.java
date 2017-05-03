@@ -92,7 +92,7 @@ class Calculator {
     }
 
     static int calculate(String input, Set<Integer> cards) {
-        ArrayList<Integer> nums = cardsToNums(cards);
+        nums = cardsToNums(cards);
         seen = new ArrayList<>();
         StringBuilder expression = new StringBuilder();
         for (int i = 0; i < input.length(); ++i) {

@@ -20,6 +20,15 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             e.printStackTrace();
             System.exit(-1);
         }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                Statement s = connection.createStatement();
+                s.execute("UPDATE COMP3402 SET loggedIn=FALSE");
+                connection.close();
+            } catch (SQLException e) {
+                ;
+            }
+        }));
         System.setSecurityManager(new SecurityManager());
         try {
             Naming.rebind("userManager", this);
@@ -27,6 +36,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             System.err.println("[ERROR] cannot bind loginManager: " + e);
             System.exit(-1);
         }
+
     }
     public User login(String username, char[] password) throws RemoteException {
         try {
@@ -45,6 +55,9 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
                 int numGames = result.getInt("numGames");
                 int numWins = result.getInt("numWins");
                 double totalTime = result.getDouble("totalTime");
+                PreparedStatement s = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = TRUE WHERE username = ?");
+                s.setString(1, username);
+                s.executeUpdate();
                 return new User(result.getInt("id"), username, numGames, numWins, totalTime);
             }
             return new User(USER_NOT_EXIST);
@@ -63,7 +76,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
                 return HAS_REGISTERED;
             }
             stmt = connection.prepareStatement("INSERT INTO COMP3402 (username, password, numWins, numGames, totalTime, loggedIn) "+
-                    "VALUES (?, ?, 0, 0, 0, FALSE)");
+                    "VALUES (?, ?, 0, 0, 0, TRUE)");
             stmt.setString(1, username);
             stmt.setString(2, new String(password));
             stmt.execute();

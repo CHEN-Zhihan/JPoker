@@ -19,6 +19,7 @@ public class JMSClient extends JMSManager implements MessageListener{
             throw e;
         }
         this.c = c;
+        setTopicReader();
     }
     void setTopicReader(int roomID) throws JMSException {
         try {
@@ -32,8 +33,8 @@ public class JMSClient extends JMSManager implements MessageListener{
     }
     void setTopicReader() throws JMSException {
         try {
-            String selector = "assignTo = " + id;
-            topicReader = session.createConsumer(topic, selector);
+        //    String selector = "assignTo = " + id;
+            topicReader = session.createConsumer(topic);
             topicReader.setMessageListener(this);
         } catch (JMSException e) {
             System.err.println("Failed reading from topic: " + e);
