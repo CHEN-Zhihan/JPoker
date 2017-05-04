@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by zhihan on 5/3/17.
  */
-public class JMSServer extends JMSManager implements Runnable {
+class JMSServer extends JMSManager implements Runnable {
     private MessageConsumer queueReader;
     private MessageProducer topicSender;
     private GameManager manager;

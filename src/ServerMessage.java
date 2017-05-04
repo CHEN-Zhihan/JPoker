@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Created by zhihan on 5/3/17.
  */
 abstract class ServerMessage implements Serializable {
-    private ArrayList<User> users;
+    private final ArrayList<User> users;
 
     abstract void execute(Client c);
     ServerMessage(ArrayList<User> users) {
@@ -19,8 +19,8 @@ abstract class ServerMessage implements Serializable {
 
 
 class EndMessage extends ServerMessage {
-    private String winner;
-    private String solution;
+    private final String winner;
+    private final String solution;
     EndMessage(ArrayList<User> users, String winner, String solution) {
         super(users);
         this.winner = winner;
@@ -39,8 +39,8 @@ class EndMessage extends ServerMessage {
 }
 
 class StartMessage extends ServerMessage {
-    private ArrayList<Integer> cards;
-    private int gameID;
+    private final ArrayList<Integer> cards;
+    private final int gameID;
     StartMessage(ArrayList<Integer> cards, ArrayList<User> users, int id) {
         super(users);
         this.cards = cards;

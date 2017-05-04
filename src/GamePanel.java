@@ -3,23 +3,22 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  *
  * Created by zhihan on 2/24/17.
  */
 class GamePanel extends ObserverPanel {
-    private Client client;
+    private final Client client;
     private JButton start;
-    private JTextField input = new JTextField();
-    private JLabel result = new JLabel();
-    private JLabel winner = new JLabel();
-    private JLabel solution = new JLabel();
-    private JLabel waiting = new JLabel();
+    private final JTextField input = new JTextField();
+    private final JLabel result = new JLabel();
+    private final JLabel winner = new JLabel();
+    private final JLabel solution = new JLabel();
+    private final JLabel waiting = new JLabel();
     private ArrayList<Integer> cards;
     private boolean completed = false;
-    private GameFrame frame;
+    private final GameFrame frame;
     GamePanel (Client client, GameFrame frame) {
         this.client = client;
         initializeAppearance();
@@ -62,7 +61,6 @@ class GamePanel extends ObserverPanel {
                 		client.complete(input.getText());
                 		completed = true;
                 	}
-                    
                     return;
                 }
                 result.setText("=" + outcome);

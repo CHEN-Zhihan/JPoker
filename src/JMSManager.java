@@ -25,7 +25,7 @@ class JMSManager {
             queue = (Queue)context.lookup("jms/JPoker24GameQueue");
             topic = (Topic)context.lookup("jms/JPoker24GameTopic");
         } catch (NamingException e) {
-            System.err.println(e);
+            System.err.println("[ERROR] Cannot setup JMSManager " + e);
             throw e;
         }
         try {
@@ -33,7 +33,7 @@ class JMSManager {
             connection.start();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         } catch (JMSException e) {
-            System.err.println(e);
+            System.err.println("[ERROR] Failed to create session: " + e);
             throw e;
         }
     }

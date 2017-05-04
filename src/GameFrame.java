@@ -1,22 +1,20 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.rmi.RemoteException;
 
 /**
  * Created by zhihan on 2/24/17.
  */
 class GameFrame extends JFrame {
-    private Client client;
-    private JRootPane rootPane;
+    private final Client client;
     private ObserverPanel panel;
-    private ProfilePanel profilePanel;
-    private LeaderBoardPanel leaderBoardPanel;
-    private GamePanel gamePanel;
-    private JMenuBar menuBar = new JMenuBar();
-    private JMenuItem profile = new JMenuItem("User Profile");
-    private JMenuItem play = new JMenuItem("Play Game");
-    private JMenuItem leader = new JMenuItem("LeaderBoard");
-    private JMenuItem logout = new JMenuItem("Logout");
+    private final ProfilePanel profilePanel;
+    private final LeaderBoardPanel leaderBoardPanel;
+    private final GamePanel gamePanel;
+    private final JMenuBar menuBar = new JMenuBar();
+    private final JMenuItem profile = new JMenuItem("User Profile");
+    private final JMenuItem play = new JMenuItem("Play Game");
+    private final JMenuItem leader = new JMenuItem("LeaderBoard");
+    private final JMenuItem logout = new JMenuItem("Logout");
     GameFrame(Client client) {
         this.client = client;
         profilePanel = new ProfilePanel(client);
@@ -26,7 +24,6 @@ class GameFrame extends JFrame {
     }
 
     private void initializeAppearance() {
-        rootPane = this.getRootPane();
         menuBar.add(profile);
         menuBar.add(play);
         menuBar.add(leader);
@@ -38,7 +35,7 @@ class GameFrame extends JFrame {
         leader.addActionListener((ActionEvent e) -> setPanel(leaderBoardPanel));
         this.setPanel(profilePanel);
         this.setSize(500, 400);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);

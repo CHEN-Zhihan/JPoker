@@ -53,9 +53,6 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
                 if (hasLoggedIn) {
                     return USER_HAS_LOGGEDIN;
                 }
-                int numGames = result.getInt("numGames");
-                int numWins = result.getInt("numWins");
-                double totalTime = result.getDouble("totalTime");
                 PreparedStatement s = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = TRUE WHERE username = ?");
                 s.setString(1, username);
                 s.executeUpdate();
@@ -116,7 +113,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
         try {
             Statement stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT id, username, numWins, numGames, totalTime FROM COMP3402");
-            String username = null;
+            String username;
             int numWins;
             int numGames;
             double totalTime;

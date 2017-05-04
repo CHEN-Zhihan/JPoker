@@ -8,7 +8,7 @@ import java.util.HashMap;
  */
 class GameManager {
     private Game currentGame;
-    private HashMap<Integer, Game> gameSet;
+    private final HashMap<Integer, Game> gameSet;
     private JMSServer jms;
     private int gameCounter;
     private InfoManager manager;
@@ -75,8 +75,7 @@ class GameManager {
                     manager.update(u.getID());
                 }
             }
-            User u = manager.getUser(m.getSenderID());
-            jms.send(new EndMessage(game.getUsers(), u.getUsername(), m.getSolution()));
+            jms.send(new EndMessage(game.getUsers(), m.getUsername(), m.getSolution()));
         }
     }
 }

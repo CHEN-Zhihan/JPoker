@@ -2,13 +2,11 @@
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.rmi.RemoteException;
 
 /**
  * Created by zhihan on 2/9/17.
  */
-public class LoginFrame extends JFrame {
-    private Client client;
+class LoginFrame extends UserFrame {
     private JRootPane rootPane;
     private JPasswordField passwordField;
     private JTextField usernameField;
@@ -18,7 +16,7 @@ public class LoginFrame extends JFrame {
     }
 
     LoginFrame(Client client) {
-        this.client = client;
+        super(client);
         initializeAppearance();
         login(username, username.toCharArray());
     }
@@ -64,34 +62,41 @@ public class LoginFrame extends JFrame {
         passwordField.setBounds(100, 50, 150, 30);
         login.setBounds(10, 100, 90, 30);
         register.setBounds(150, 100, 100, 30);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
     private void login(String username, char[] password) {
-        try {
-            int result = client.login(username, password);
-            if (result >= 0) {
-                this.setVisible(false);
-                this.dispose();
-                new GameFrame(client);
-            } else if (result == UserManager.USER_NOT_EXIST) {
-                JOptionPane.showMessageDialog(rootPane, "Login Failed: User Not Exist", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            } else if (result == UserManager.USER_HAS_LOGGEDIN) {
-                JOptionPane.showMessageDialog(rootPane, "Login Failed: User Logged In Already", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            } else if (result == UserManager.USER_INCORRECT_PASSWORD) {
-                JOptionPane.showMessageDialog(rootPane, "Login Failed: Incorrect Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (RemoteException e) {
-            JOptionPane.showMessageDialog(rootPane, "Login Failed: " + e, "Login Failed", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            passwordField.setText("");
-            usernameField.setText("");
+        int result = client.login(username, password);
+        if (checkAndEnter(result)) {
+            return;
         }
+        switch (result) {
+            case UserManager.USER_NOT_EXIST: {
+                JOptionPane.showMessageDialog(rootPane, "Login Failed: User Not Exist", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                break;
+            }case UserManager.DATABASE_ERROR: {
+                JOptionPane.showMessageDialog(rootPane, "Login Failed: Database Error", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                break;
+            }case UserManager.USER_HAS_LOGGEDIN: {
+                JOptionPane.showMessageDialog(rootPane, "Login Failed: User Logged In Already", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                break;
+            }case UserManager.REMOTE_ERROR: {
+                JOptionPane.showMessageDialog(rootPane, "Login Failed: Remote Error", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                break;
+            }case UserManager.USER_INCORRECT_PASSWORD: {
+                JOptionPane.showMessageDialog(rootPane, "Login Failed: Incorrect Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                break;
+            }case PasswordManager.ENCRYPT_ERROR: {
+                JOptionPane.showMessageDialog(rootPane, "Login Failed: Encrypt error", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                break;
+            }
+        }
+        passwordField.setText("");
+        usernameField.setText("");
     }
-
 
     public static void main(String[] args) {
         username = args[2];

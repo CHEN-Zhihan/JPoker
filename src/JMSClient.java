@@ -4,15 +4,11 @@ import javax.naming.NamingException;
 /**
  * Created by zhihan on 5/3/17.
  */
-public class JMSClient extends JMSManager implements MessageListener{
-    int id;
+class JMSClient extends JMSManager implements MessageListener{
     private MessageProducer queueSender;
-    private MessageConsumer topicReader;
     private Client c;
-    private String selector;
     JMSClient(String ip, int port, int id, Client c) throws NamingException, JMSException{
         super(ip, port);
-        this.id = id;
         try {
             queueSender = session.createProducer(queue);
         } catch (JMSException e) {
@@ -20,13 +16,10 @@ public class JMSClient extends JMSManager implements MessageListener{
             throw e;
         }
         this.c = c;
-        selector = "Receiver0 = " + id + " OR Receiver1 = " + id + " OR Receiver2 = " + id + " OR Receiver3 = " + id;
-        setTopicReader();
-    }
-    private void setTopicReader(){
+        String selector = "Receiver0 = " + id + " OR Receiver1 = " + id + " OR Receiver2 = " + id + " OR Receiver3 = " + id;
         try {
             System.out.println(selector);
-            topicReader = session.createConsumer(topic, selector);
+            MessageConsumer topicReader = session.createConsumer(topic, selector);
             topicReader.setMessageListener(this);
         } catch (JMSException e) {
             System.err.println("Failed reading from topic: " + e);

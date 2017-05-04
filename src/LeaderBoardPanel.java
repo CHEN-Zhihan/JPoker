@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,7 +8,7 @@ import java.util.Collections;
  * Created by zhihan on 2/24/17.
  */
 public class LeaderBoardPanel extends ObserverPanel {
-    private Client client;
+    private final Client client;
     private ArrayList<User> users;
     LeaderBoardPanel(Client client) {
         this.client = client;

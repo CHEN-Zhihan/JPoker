@@ -3,9 +3,9 @@ import java.rmi.RemoteException;
 /**
  * Created by zhihan on 5/3/17.
  */
-public class Server {
+class Server {
 
-    Server(int port) {
+    private Server(int port) {
         try {
             GameManager gm = new GameManager(port);
             gm.setInfoManager(new DBManager(gm));

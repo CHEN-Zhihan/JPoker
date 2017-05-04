@@ -3,13 +3,12 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.rmi.RemoteException;
 
 /**
  * Created by zhihan on 2/24/17.
  */
 public class ProfilePanel extends ObserverPanel {
-    private Client client;
+    private final Client client;
     ProfilePanel(Client client) {
         this.client = client;
         this.initializeAppearance();

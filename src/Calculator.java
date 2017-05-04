@@ -6,13 +6,14 @@ import java.util.*;
 /**
  * Created by zhihan on 4/24/17.
  */
-class Calculator {
-    public static final int ILLEGAL = -1;
-    private static HashMap<Character, Integer> map = new HashMap<>();
-    private static HashSet<Character> operator = new HashSet<>();
-    private static ArrayList<Character> ops = new ArrayList<>();
+final class Calculator {
+    static final int ILLEGAL = -1;
+    private static final HashMap<Character, Integer> map = new HashMap<>();
+    private static final HashSet<Character> operator = new HashSet<>();
+    private static final ArrayList<Character> ops = new ArrayList<>();
     private static ArrayList<Integer> seen;
     private static ArrayList<Integer> nums;
+    private Calculator(){}
     static {
         map.put('A', 1);
         map.put('a', 1);
@@ -39,18 +40,17 @@ class Calculator {
         for (ArrayList<Integer> n : permuations) {
             for (ArrayList<Character> op : operatorPerm) {
                 if (solvable(n, op)) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("((");
-                    sb.append(n.get(3));
-                    sb.append(op.get(0));
-                    sb.append(n.get(2));
-                    sb.append(')');
-                    sb.append(op.get(1));
-                    sb.append(n.get(1));
-                    sb.append(')');
-                    sb.append(op.get(2));
-                    sb.append(n.get(0));
-                    System.out.println(sb.toString());
+                    String sb = "((" +
+                            n.get(3) +
+                            op.get(0) +
+                            n.get(2) +
+                            ')' +
+                            op.get(1) +
+                            n.get(1) +
+                            ')' +
+                            op.get(2) +
+                            n.get(0);
+                    System.out.println(sb);
                     return true;
                 }
             }
@@ -144,7 +144,7 @@ class Calculator {
                     result = (Double)engine.eval(expression.toString());
                 }
             } catch (ClassCastException e) {
-                System.err.println(e);
+                System.err.println("[ERROR] Error on casting result: " + e);
                 return ILLEGAL;
             }
 

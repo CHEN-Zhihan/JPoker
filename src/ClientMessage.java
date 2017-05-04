@@ -4,12 +4,11 @@ import java.io.Serializable;
  * Created by zhihan on 5/3/17.
  */
 abstract class ClientMessage implements Serializable {
-    int id;
+    final int id;
     ClientMessage(int i) {
         id = i;
     }
     abstract void execute(GameManager g);
-
 }
 
 class RequestMessage extends ClientMessage {
@@ -25,11 +24,13 @@ class RequestMessage extends ClientMessage {
 }
 
 class FinishedMessage extends ClientMessage {
-    private int game;
-    private String solution;
-    FinishedMessage(int sender, int game, String solution) {
+    private final int game;
+    private final String username;
+    private final String solution;
+    FinishedMessage(int sender, String username, int game, String solution) {
         super(sender);
         this.game = game;
+        this.username = username;
         this.solution = solution;
     }
     int getGameID() {
@@ -43,6 +44,7 @@ class FinishedMessage extends ClientMessage {
     String getSolution() {
         return solution;
     }
+    String getUsername() {return username;}
 
     void execute(GameManager g) {
         g.onFinish(this);

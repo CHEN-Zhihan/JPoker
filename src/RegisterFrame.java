@@ -1,19 +1,17 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.rmi.RemoteException;
 import java.util.Arrays;
 
 /**
  * Created by zhihan on 2/24/17.
  */
-public class RegisterFrame extends JFrame{
-    private Client client;
+class RegisterFrame extends UserFrame {
     private JRootPane rootPane;
     private JPasswordField passwordField1;
     private JPasswordField passwordField2;
     private JTextField usernameField;
-    public RegisterFrame(Client client) {
-        this.client = client;
+    RegisterFrame(Client client) {
+        super(client);
         this.initializeAppearance();
     }
 
@@ -78,20 +76,21 @@ public class RegisterFrame extends JFrame{
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     private void register(String username, char[] password) {
         int result = client.register(username, password);
-        if (result > 0) {
-            this.setVisible(false);
-            this.dispose();
-            new GameFrame(client);
-        } else if (result != -1){
-            JOptionPane.showMessageDialog(rootPane, "Register Failed: User exist","Register Failed", JOptionPane.ERROR_MESSAGE);
-            passwordField1.setText("");
-            passwordField2.setText("");
-            usernameField.setText("");
+        if (checkAndEnter(result)) {
+            return;
         }
+        if (result == PasswordManager.ENCRYPT_ERROR) {
+            JOptionPane.showMessageDialog(rootPane, "Register Failed: Encrypt error","Register Failed", JOptionPane.ERROR_MESSAGE);
+        } else if (result == UserManager.HAS_REGISTERED) {
+            JOptionPane.showMessageDialog(rootPane, "Register Failed: User exist","Register Failed", JOptionPane.ERROR_MESSAGE);
+        }
+        passwordField1.setText("");
+        passwordField2.setText("");
+        usernameField.setText("");
     }
 }

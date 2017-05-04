@@ -5,11 +5,11 @@ import java.util.*;
  * Created by zhihan on 2/24/17.
  */
 class Game implements Serializable {
-    private ArrayList<User> users;
+    private final ArrayList<User> users;
     private ArrayList<Integer> cards;
     private long startTime;
     private long endTime;
-    private int id;
+    private final int id;
     private boolean ready;
     Game(User u, int id, GameManager manager) {
         startTime = System.nanoTime();
