@@ -16,7 +16,7 @@ public class LeaderBoardPanel extends ObserverPanel {
     }
 
     protected void initializeAppearance() {
-        String[] columnNames = {"Rank", "Username", "Games won", "Games Played", "Average winning time"};
+        String[] columnNames = {"Rank", "Username", "Games won", "Games Played", "Average winning time(s)"};
         users = client.getAllUsers();
         Collections.sort(users);
         Object[][] data = new Object[users.size()][5];
@@ -28,7 +28,7 @@ public class LeaderBoardPanel extends ObserverPanel {
             data[i][1] = u.getUsername();
             data[i][2] = u.getNumWins();
             data[i][3] = u.getNumGames();
-            data[i][4] = u.getAverageTime()>0?u.getAverageTime():"N/A";
+            data[i][4] = u.getAverageTime()>0?String.format("%.2f", u.getAverageTime()):"N/A";
         }
         TableModel model = new DefaultTableModel(data, columnNames) {
             public boolean isCellEditable(int column, int row) {
@@ -36,11 +36,11 @@ public class LeaderBoardPanel extends ObserverPanel {
             }
         };
         JTable table = new JTable(model);
-        table.getColumnModel().getColumn(0).setPreferredWidth(5);
+        table.getColumnModel().getColumn(0).setPreferredWidth(4);
         table.getColumnModel().getColumn(1).setPreferredWidth(40);
         table.getColumnModel().getColumn(2).setPreferredWidth(40);
         table.getColumnModel().getColumn(3).setPreferredWidth(56);
-        table.getColumnModel().getColumn(4).setPreferredWidth(110);
+        table.getColumnModel().getColumn(4).setPreferredWidth(120);
         for (int i = 0; i != columnNames.length; ++i) {
             table.getColumnModel().getColumn(i).setResizable(false);
         }

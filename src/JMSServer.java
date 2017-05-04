@@ -11,7 +11,7 @@ class JMSServer extends JMSManager implements Runnable {
     private MessageConsumer queueReader;
     private MessageProducer topicSender;
     private GameManager manager;
-    private boolean running = true;
+    private volatile boolean running = true;
     JMSServer(int port, GameManager manager) throws JMSException, NamingException{
         super("localhost", port);
         try {
@@ -19,6 +19,7 @@ class JMSServer extends JMSManager implements Runnable {
             queueReader = session.createConsumer(queue);
         } catch (JMSException e) {
             System.err.println("Failed setting up JMSServer " + e);
+            e.printStackTrace();
             throw e;
         }
         this.manager = manager;
@@ -31,7 +32,16 @@ class JMSServer extends JMSManager implements Runnable {
                 ClientMessage clientMessage = (ClientMessage) ((ObjectMessage)m).getObject();
                 manager.onMessage(clientMessage);
             } catch (JMSException e) {
-                System.err.println("[ERROR] Failed to receive message: " + e);
+                if (running) {
+                    System.err.println("[ERROR] Failed to receive message: " + e);
+                    e.printStackTrace();
+                }
+                break;
+            } catch (Exception e) {
+                if (running) {
+                    System.err.println("[ERROR] " + e);
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -42,11 +52,9 @@ class JMSServer extends JMSManager implements Runnable {
             ArrayList<User> users = m.getUsers();
             for (int i = 0; i != users.size(); ++i) {
                 message.setIntProperty("Receiver" + i, users.get(i).getID());
-                System.out.println("Receiver" + i + " " + message.getIntProperty("Receiver" + i));
             }
             for (int i = 3; i != users.size() - 1; --i) {
                 message.setIntProperty("Receiver" + i, -1);
-                System.out.println("Receiver" + i + " " + message.getIntProperty("Receiver" + i));
             }
             topicSender.send(message);
         } catch (JMSException e) {

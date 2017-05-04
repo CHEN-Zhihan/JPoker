@@ -18,7 +18,6 @@ class JMSClient extends JMSManager implements MessageListener{
         this.c = c;
         String selector = "Receiver0 = " + id + " OR Receiver1 = " + id + " OR Receiver2 = " + id + " OR Receiver3 = " + id;
         try {
-            System.out.println(selector);
             MessageConsumer topicReader = session.createConsumer(topic, selector);
             topicReader.setMessageListener(this);
         } catch (JMSException e) {
@@ -28,9 +27,6 @@ class JMSClient extends JMSManager implements MessageListener{
 
     public void onMessage(Message m) {
         try {
-            for (int i = 0; i != 4; ++i) {
-                System.out.println("Receiver" + i + " " + m.getIntProperty("Receiver" + i));
-            }
             ServerMessage serverMessage = (ServerMessage)((ObjectMessage)m).getObject();
             c.onMessage(serverMessage);
         } catch (JMSException e) {

@@ -7,7 +7,7 @@ import java.security.MessageDigest;
  */
 final class PasswordManager {
     private PasswordManager() {}
-    public static final int ENCRYPT_ERROR = -7;
+    static final int ENCRYPT_ERROR = -7;
     static char[] encrypt(char[] plaintext){
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

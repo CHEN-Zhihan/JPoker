@@ -24,16 +24,15 @@ class GamePanel extends ObserverPanel {
         initializeAppearance();
         client.setObserver(this);
         this.frame = frame;
-
     }
 
     protected void initializeAppearance() {
         start = new JButton("New Game");
         this.setLayout(null);
         this.add(start);
-        start.setBounds(150, 0, 150, 30);
+        start.setBounds(150, 20, 150, 30);
         waiting.setText("Waiting for players");
-        waiting.setBounds(150, 100, 150, 30);
+        waiting.setBounds(150, 150, 150, 30);
         start.addActionListener((ActionEvent e) -> this.ready());
         input.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -73,10 +72,10 @@ class GamePanel extends ObserverPanel {
         this.add(start);
         this.add(this.winner);
         this.add(this.solution);
-        this.winner.setBounds(50, 50, 200, 100);
-        this.solution.setBounds(50, 300, 200, 100);
-        this.winner.setText(winner);
-        this.solution.setText(solution);
+        this.winner.setBounds(150, 50, 200, 30);
+        this.solution.setBounds(150, 80, 200, 30);
+        this.winner.setText("Winner: " + winner);
+        this.solution.setText("Solution: " + solution);
         start.setEnabled(true);
         this.frame.defreeze();
         this.revalidate();
@@ -86,6 +85,7 @@ class GamePanel extends ObserverPanel {
     private void ready() {
         client.request();
         start.setEnabled(false);
+        this.remove(start);
         this.frame.freeze();
         this.add(waiting);
         this.revalidate();
@@ -96,19 +96,22 @@ class GamePanel extends ObserverPanel {
         completed = false;
         this.cards = cards;
         this.removeAll();
-        this.add(start);
-        int i = 0;
-        for (Integer card : cards) {
-            ImageIcon image = new ImageIcon("images/card_" + card + ".gif");
+        for (int i = 0; i != cards.size(); ++i) {
+            ImageIcon image = new ImageIcon("images/card_" + cards.get(i) + ".gif");
             JLabel label = new JLabel("", image, JLabel.CENTER);
             this.add(label);
-            label.setBounds(80 * (i++) , 200, 80, 100);
+            label.setBounds(80 * i , 100, 80, 100);
+        }
+        for (int i = 0; i != users.size(); ++i) {
+            PlayerPanel p = new PlayerPanel(users.get(i));
+            this.add(p);
+            p.setBounds(350, 100*i + 20, 120, 100);
         }
         this.add(input);
         this.add(result);
         input.setText("");
-        input.setBounds(150, 300, 100, 30);
-        result.setBounds(250, 300, 50, 30);
+        input.setBounds(100, 250, 100, 30);
+        result.setBounds(200, 250, 50, 30);
         this.revalidate();
         this.repaint();
     }

@@ -145,6 +145,7 @@ final class Calculator {
                 }
             } catch (ClassCastException e) {
                 System.err.println("[ERROR] Error on casting result: " + e);
+                e.printStackTrace();
                 return ILLEGAL;
             }
 
@@ -153,6 +154,7 @@ final class Calculator {
             }
             return result.intValue();
         } catch (ScriptException e) {
+            e.printStackTrace();
             return ILLEGAL;
         }
     }

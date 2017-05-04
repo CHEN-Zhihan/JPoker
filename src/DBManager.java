@@ -35,6 +35,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             Naming.rebind("userManager", this);
         } catch (MalformedURLException e) {
             System.err.println("[ERROR] cannot bind loginManager: " + e);
+            e.printStackTrace();
             System.exit(-1);
         }
         this.manager = m;
@@ -61,6 +62,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             return USER_NOT_EXIST;
         } catch (SQLException e) {
             System.err.println("Error login: " + e);
+            e.printStackTrace();
             return DATABASE_ERROR;
         }
     }
@@ -84,6 +86,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             return resultSet.getInt(1);
         } catch (SQLException e) {
             System.err.println("Error register: " + e);
+            e.printStackTrace();
             return DATABASE_ERROR;
         }
     }
@@ -95,6 +98,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             manager.quit(id);
         } catch (SQLException e) {
             System.err.println("Error logout: " + e);
+            e.printStackTrace();
         }
     }
     public int getRank(int id) throws RemoteException {
@@ -106,6 +110,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             return resultSet.getInt(1) + 1;
         } catch (SQLException e) {
             System.err.println("Error getRank: " + e);
+            e.printStackTrace();
             return -1;
         }
     }
@@ -128,6 +133,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             return result;
         } catch (SQLException e) {
             System.err.println("Error getAllUsers: " + e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -143,6 +149,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
                     resultSet.getInt("numWins"), resultSet.getDouble("totalTime"));
         } catch (SQLException e) {
             System.err.println("[ERROR] Cannot get user with index: " + i + " " + e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -156,6 +163,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("[ERROR] Cannot update user with index: " + i + " " + e);
+            e.printStackTrace();
         }
     }
     public void update(int i) {
@@ -165,6 +173,17 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("[ERROR] Cannot update user with index: " + i + " " + e);
+            e.printStackTrace();
         }
     }
+
+    void shutdown() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Cannot close connection " + e);
+            e.printStackTrace();
+        }
+    }
+
 }

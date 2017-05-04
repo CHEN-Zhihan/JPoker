@@ -21,9 +21,9 @@ class Game implements Serializable {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("wake up!!!");
                 ready = true;
-                if (users.size() >= 2) {
+                System.out.println("[INFO] Wake up with " + users.size() + " manager can begin: " + manager.canBegin());
+                if (users.size() >= 2 && manager.canBegin()) {
                     manager.start();
                 }
             }
@@ -55,6 +55,7 @@ class Game implements Serializable {
 
     void addUser(User u) {
         users.add(u);
+        System.out.println(users.size());
         if (users.size() == 4) {
             ready = true;
         }

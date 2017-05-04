@@ -9,6 +9,7 @@ import java.util.HashMap;
 class GameManager {
     private Game currentGame;
     private final HashMap<Integer, Game> gameSet;
+    private final HashMap<Integer, Game> playerGame;
     private JMSServer jms;
     private int gameCounter;
     private InfoManager manager;
@@ -22,6 +23,7 @@ class GameManager {
         Thread thread = new Thread(jms);
         thread.start();
         gameSet = new HashMap<>();
+        playerGame = new HashMap<>();
     }
 
     void setInfoManager(InfoManager m) {
@@ -32,40 +34,56 @@ class GameManager {
     }
 
     void quit(int i) {
-        if (currentGame != null) {
-            currentGame.removeUser(i);
-            if (currentGame.getUsers().size() == 0) {
-                currentGame = null;
+        System.out.println("[INFO] " + i + " quit");
+        Game g = playerGame.get(i);
+        if (g != null) {
+            g.removeUser(i);
+            if (currentGame == g) {
+                if (currentGame.getUsers().size() == 0) {
+                    currentGame = null;
+                }
+            } else if (g.getUsers().size() == 0) {
+                gameSet.remove(g.getID());
             }
+            playerGame.remove(i);
         }
     }
 
+    boolean canBegin() {
+        return currentGame != null;
+    }
+
     void onRequest(RequestMessage m) {
-        System.out.println("Receive request!!!");
+        System.out.println("[INFO] Received game request from " + m.getSenderID());
         User u = manager.getUser(m.getSenderID());
+        boolean canStart = false;
         if (currentGame == null) {
             currentGame = new Game(u, gameCounter++, this);
         } else {
             currentGame.addUser(u);
-            if (currentGame.isReady()) {
-                start();
-            }
+            canStart = currentGame.isReady();
+        }
+        playerGame.put(m.getSenderID(), currentGame);
+        System.out.println("[INFO] Add " + m.getSenderID() + " to " + currentGame.getID());
+        if (canStart) {
+            start();
         }
     }
 
     void start() {
-        if (currentGame != null) {
-            System.out.println("Starting game!!");
-            jms.send(new StartMessage(new ArrayList<>(currentGame.getCards()), currentGame.getUsers(), currentGame.getID()));
-            currentGame.start();
-            gameSet.put(currentGame.getID(), currentGame);
-            currentGame = null;
-        }
+        System.out.println("[INFO] Game " + currentGame.getID() + " start");
+        jms.send(new StartMessage(new ArrayList<>(currentGame.getCards()), currentGame.getUsers(), currentGame.getID()));
+        currentGame.start();
+        gameSet.put(currentGame.getID(), currentGame);
+        currentGame = null;
     }
 
     void onFinish(FinishedMessage m) {
         if (gameSet.containsKey(m.getGameID())) {
             Game game = gameSet.get(m.getGameID());
+            for (User u:game.getUsers()) {
+                playerGame.remove(u.getID());
+            }
             gameSet.remove(m.getGameID());
             game.complete();
             double time = game.getDuration();
@@ -77,5 +95,9 @@ class GameManager {
             }
             jms.send(new EndMessage(game.getUsers(), m.getUsername(), m.getSolution()));
         }
+    }
+
+    void shutdown() {
+        jms.shutdown();
     }
 }

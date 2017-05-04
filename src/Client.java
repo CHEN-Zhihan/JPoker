@@ -24,6 +24,7 @@ class Client {
             userManager = (UserManager)registry.lookup("userManager");
         } catch (RemoteException | NotBoundException e) {
             System.err.println("[ERROR] Cannot find userManager at " + hostIP + " " + e);
+            e.printStackTrace();
             System.exit(-1);
         }
         Runtime.getRuntime().addShutdownHook(new Thread(this::logout));
@@ -40,6 +41,7 @@ class Client {
             return u;
         } catch (RemoteException e) {
             System.err.println("[ERROR] Cannot get user " + e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -49,6 +51,7 @@ class Client {
             return userManager.getRank(id);
         } catch (RemoteException e) {
             System.err.println("[ERROR] Cannot get rank of " + id + " " + e);
+            e.printStackTrace();
             return -1;
         }
     }
@@ -58,6 +61,7 @@ class Client {
             return userManager.getAllUsers();
         } catch (RemoteException e) {
             System.err.println("[ERROR] Cannot get all users " + e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -72,6 +76,7 @@ class Client {
             i = userManager.login(username, password);
         } catch (RemoteException e) {
             System.err.println("[ERROR] Cannot login " + e);
+            e.printStackTrace();
             return UserManager.REMOTE_ERROR;
         }
         if (i >= 0) {
@@ -91,6 +96,7 @@ class Client {
             result = userManager.register(username, password);
         } catch (RemoteException e) {
             System.err.println("[ERROR] Cannot register " + e);
+            e.printStackTrace();
             return UserManager.REMOTE_ERROR;
         }
         if (result > 0) {
@@ -108,13 +114,13 @@ class Client {
             }
         } catch (RemoteException e) {
             System.err.println("[ERROR] Cannot logout " + e);
+            e.printStackTrace();
             System.exit(-1);
         }
     }
 
     void onStart(StartMessage m) {
         gameID = m.getGameID();
-        System.out.println("Starting game!!!");
         g.start(m.getCards(), m.getUsers());
     }
 
@@ -133,7 +139,7 @@ class Client {
 
     void request() {
         jms.sendMessage(new RequestMessage(id));
-        System.out.println("Client sent!!");
+        System.out.println("[INFO] Sent game request");
     }
 
     void complete(String solution) {
@@ -145,6 +151,7 @@ class Client {
             jms = new JMSClient(hostIP, port, id, this);
         } catch (NamingException | JMSException e) {
             System.err.println("[ERROR] Cannot setup JMS Client: " + e);
+            e.printStackTrace();
             System.exit(-1);
         }
     }
