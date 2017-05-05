@@ -47,7 +47,6 @@ class GamePanel extends ObserverPanel {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-   //             check();
             }
             private  void check() {
                 int outcome = Calculator.calculate(input.getText(), cards);
@@ -85,7 +84,7 @@ class GamePanel extends ObserverPanel {
     private void ready() {
         client.request();
         start.setEnabled(false);
-        this.remove(start);
+        this.removeAll();
         this.frame.freeze();
         this.add(waiting);
         this.revalidate();
@@ -105,7 +104,7 @@ class GamePanel extends ObserverPanel {
         for (int i = 0; i != users.size(); ++i) {
             PlayerPanel p = new PlayerPanel(users.get(i));
             this.add(p);
-            p.setBounds(350, 100*i + 20, 120, 100);
+            p.setBounds(350, 80*i + 5, 120, 80);
         }
         this.add(input);
         this.add(result);

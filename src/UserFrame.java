@@ -6,7 +6,7 @@ import javax.swing.*;
 abstract class UserFrame extends JFrame {
     final Client client;
     boolean checkAndEnter(int result) {
-        if (result != UserManager.VALID) {
+        if (result <= 0) {
             return false;
         }
         this.setVisible(false);

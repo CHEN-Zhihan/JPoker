@@ -10,7 +10,6 @@ class LoginFrame extends UserFrame {
     private JRootPane rootPane;
     private JPasswordField passwordField;
     private JTextField usernameField;
-    private static String username;
     private LoginFrame(String hostIP, int port) {
         this(new Client(hostIP, port));
     }
@@ -18,7 +17,6 @@ class LoginFrame extends UserFrame {
     LoginFrame(Client client) {
         super(client);
         initializeAppearance();
-        login(username, username.toCharArray());
     }
 
     private void initializeAppearance() {
@@ -99,7 +97,10 @@ class LoginFrame extends UserFrame {
     }
 
     public static void main(String[] args) {
-        username = args[2];
+        if (args.length != 2) {
+            System.out.println("Usage: java Client.jar <server IP> <server Port>");
+            System.exit(-1);
+        }
         new LoginFrame(args[0], Integer.parseInt(args[1]));
     }
 }

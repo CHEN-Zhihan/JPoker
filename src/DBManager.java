@@ -81,7 +81,7 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             stmt.setString(2, new String(password));
             stmt.execute();
             Statement s = connection.createStatement();
-            ResultSet resultSet = s.executeQuery("SELECT COUNT(*)");
+            ResultSet resultSet = s.executeQuery("SELECT COUNT(*) FROM COMP3402");
             resultSet.next();
             return resultSet.getInt(1);
         } catch (SQLException e) {

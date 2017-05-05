@@ -83,7 +83,7 @@ class Client {
             id = i;
             setJMS();
         }
-        return UserManager.VALID;
+        return i;
     }
 
     int register(String username, char[] password) {
@@ -103,7 +103,7 @@ class Client {
             id = result;
             setJMS();
         }
-        return UserManager.VALID;
+        return result;
     }
 
     void logout() {
