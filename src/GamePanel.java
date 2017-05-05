@@ -2,6 +2,9 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -96,8 +99,14 @@ class GamePanel extends ObserverPanel {
         this.cards = cards;
         this.removeAll();
         for (int i = 0; i != cards.size(); ++i) {
-            ImageIcon image = new ImageIcon("images/card_" + cards.get(i) + ".gif");
-            JLabel label = new JLabel("", image, JLabel.CENTER);
+        	JLabel label;
+        	try{
+        		URL url = getClass().getResource("images/card_" + cards.get(i) + ".gif").toURI().toURL();
+        		label = new JLabel(new ImageIcon(url));
+        	} catch (MalformedURLException | URISyntaxException e) {
+        		System.err.println("[ERROR] Cannot read image");
+        		label = new JLabel();
+        	}
             this.add(label);
             label.setBounds(80 * i , 100, 80, 100);
         }

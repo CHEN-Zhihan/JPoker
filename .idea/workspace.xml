@@ -2,13 +2,64 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3636145b-660c-4bec-90a1-22d48f4cb3a2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client.java" afterPath="$PROJECT_DIR$/src/Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/DBManager.java" afterPath="$PROJECT_DIR$/src/DBManager.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_11.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_110.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_111.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_112.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_113.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_12.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_13.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_14.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_15.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_16.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_17.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_18.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_19.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_21.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_210.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_211.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_212.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_213.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_22.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_23.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_24.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_25.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_26.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_27.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_28.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_29.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_31.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_310.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_311.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_312.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_313.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_32.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_33.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_34.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_35.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_36.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_37.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_38.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_39.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_41.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_410.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_411.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_412.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_413.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_42.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_43.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_44.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_45.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_46.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_47.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_48.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/card_49.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/assignment1/nohup.out" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculator.java" afterPath="$PROJECT_DIR$/src/Calculator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GamePanel.java" afterPath="$PROJECT_DIR$/src/GamePanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LoginFrame.java" afterPath="$PROJECT_DIR$/src/LoginFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Server.java" afterPath="$PROJECT_DIR$/src/Server.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UserFrame.java" afterPath="$PROJECT_DIR$/src/UserFrame.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,8 +86,8 @@
       <file leaf-file-name="LoginFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LoginFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1581">
-              <caret line="96" column="5" lean-forward="true" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
+            <state relative-caret-position="544">
+              <caret line="100" column="81" lean-forward="false" selection-start-line="100" selection-start-column="81" selection-end-line="100" selection-end-column="81" />
               <folding />
             </state>
           </provider>
@@ -45,8 +96,8 @@
       <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="9" lean-forward="true" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+            <state relative-caret-position="459">
+              <caret line="29" column="25" lean-forward="true" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -54,12 +105,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DBManager.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Calculator.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Calculator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="147" column="36" lean-forward="true" selection-start-line="147" selection-start-column="36" selection-end-line="147" selection-end-column="36" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DBManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DBManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
+            <state relative-caret-position="17">
               <caret line="84" column="29" lean-forward="false" selection-start-line="84" selection-start-column="29" selection-end-line="84" selection-end-column="29" />
               <folding>
+                <element signature="imports" expanded="false" />
                 <marker date="1493969897590" expanded="true" signature="1061:1095" ph="UPDATE COMP3... " />
                 <marker date="1493969897590" expanded="true" signature="1704:1745" ph="SELECT * FRO... COMP3402" />
                 <marker date="1493969897590" expanded="true" signature="2324:2378" ph="UPDATE COMP3... " />
@@ -83,9 +147,11 @@
       <file leaf-file-name="RegisterFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/RegisterFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
+            <state relative-caret-position="1377">
               <caret line="83" column="19" lean-forward="false" selection-start-line="83" selection-start-column="19" selection-end-line="83" selection-end-column="19" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -95,17 +161,10 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
               <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PasswordManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/PasswordManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="12" column="64" lean-forward="false" selection-start-line="12" selection-start-column="64" selection-end-line="12" selection-end-column="64" />
-              <folding />
+              <folding>
+                <element signature="e#371#372#0" expanded="false" />
+                <element signature="e#397#398#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -113,11 +172,9 @@
       <file leaf-file-name="GameFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GameFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="255">
               <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -127,7 +184,11 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
               <caret line="19" column="19" lean-forward="false" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#868#869#0" expanded="false" />
+                <element signature="e#912#913#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -138,7 +199,14 @@
             <state relative-caret-position="459">
               <caret line="35" column="13" lean-forward="false" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
               <folding>
+                <element signature="imports" expanded="false" />
                 <element signature="docComment;class#Client#0" expanded="false" />
+                <element signature="e#3635#3636#0" expanded="false" />
+                <element signature="e#3688#3689#0" expanded="false" />
+                <element signature="e#3796#3797#0" expanded="false" />
+                <element signature="e#3822#3823#0" expanded="false" />
+                <element signature="e#3993#3994#0" expanded="false" />
+                <element signature="e#4077#4078#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -149,7 +217,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
               <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -216,7 +286,6 @@
         <option value="$PROJECT_DIR$/src/GameFrame.java" />
         <option value="$PROJECT_DIR$/src/RegisterFrame.java" />
         <option value="$PROJECT_DIR$/src/User.java" />
-        <option value="$PROJECT_DIR$/src/Calculator.java" />
         <option value="$PROJECT_DIR$/src/PasswordManager.java" />
         <option value="$PROJECT_DIR$/src/JMSServer.java" />
         <option value="$PROJECT_DIR$/src/JMSClient.java" />
@@ -227,11 +296,12 @@
         <option value="$PROJECT_DIR$/src/Game.java" />
         <option value="$PROJECT_DIR$/src/GameManager.java" />
         <option value="$PROJECT_DIR$/src/GamePanel.java" />
-        <option value="$PROJECT_DIR$/src/LoginFrame.java" />
-        <option value="$PROJECT_DIR$/src/Server.java" />
         <option value="$PROJECT_DIR$/src/UserFrame.java" />
         <option value="$PROJECT_DIR$/src/Client.java" />
         <option value="$PROJECT_DIR$/src/DBManager.java" />
+        <option value="$PROJECT_DIR$/src/LoginFrame.java" />
+        <option value="$PROJECT_DIR$/src/Server.java" />
+        <option value="$PROJECT_DIR$/src/Calculator.java" />
       </list>
     </option>
   </component>
@@ -242,10 +312,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="-4" />
-    <option name="width" value="1535" />
-    <option name="height" value="904" />
+    <option name="x" value="64" />
+    <option name="y" value="-11" />
+    <option name="width" value="1537" />
+    <option name="height" value="912" />
   </component>
   <component name="ProjectView">
     <navigator currentView="PackagesPane" proportions="" version="1">
@@ -262,6 +332,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -300,7 +372,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -343,7 +414,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -927,14 +997,15 @@
       <workItem from="1493887426812" duration="11282000" />
       <workItem from="1493967515387" duration="1088000" />
       <workItem from="1493968639500" duration="1985000" />
+      <workItem from="1493974982031" duration="700000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103532000" />
+    <option name="totallyTimeSpent" value="104232000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1535" height="904" extended-state="6" />
+    <frame x="64" y="-11" width="1537" height="912" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1159,7 +1230,7 @@
         <state relative-caret-position="1020">
           <caret line="69" column="9" lean-forward="false" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
             <element signature="e#1439#1440#0" expanded="false" />
             <element signature="e#1481#1482#0" expanded="false" />
             <element signature="e#3154#3155#0" expanded="false" />
@@ -1173,7 +1244,7 @@
         <state relative-caret-position="170">
           <caret line="20" column="6" lean-forward="false" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1226,28 +1297,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="85" column="8" lean-forward="false" selection-start-line="85" selection-start-column="8" selection-end-line="85" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GamePanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="444">
           <caret line="105" column="24" lean-forward="false" selection-start-line="105" selection-start-column="24" selection-end-line="105" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LoginFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1581">
-          <caret line="96" column="5" lean-forward="true" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -1264,15 +1317,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/RegisterFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="83" column="19" lean-forward="false" selection-start-line="83" selection-start-column="19" selection-end-line="83" selection-end-column="19" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1280,17 +1327,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-          <folding />
+          <folding>
+            <element signature="e#371#372#0" expanded="false" />
+            <element signature="e#397#398#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="255">
           <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1298,7 +1346,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="19" column="19" lean-forward="false" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#868#869#0" expanded="false" />
+            <element signature="e#912#913#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1307,26 +1359,34 @@
         <state relative-caret-position="459">
           <caret line="35" column="13" lean-forward="false" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
           <folding>
+            <element signature="imports" expanded="false" />
             <element signature="docComment;class#Client#0" expanded="false" />
+            <element signature="e#3635#3636#0" expanded="false" />
+            <element signature="e#3688#3689#0" expanded="false" />
+            <element signature="e#3796#3797#0" expanded="false" />
+            <element signature="e#3822#3823#0" expanded="false" />
+            <element signature="e#3993#3994#0" expanded="false" />
+            <element signature="e#4077#4078#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Server.java">
+    <entry file="file://$PROJECT_DIR$/src/RegisterFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="9" lean-forward="true" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+        <state relative-caret-position="1377">
+          <caret line="83" column="19" lean-forward="false" selection-start-line="83" selection-start-column="19" selection-end-line="83" selection-end-column="19" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DBManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
+        <state relative-caret-position="17">
           <caret line="84" column="29" lean-forward="false" selection-start-line="84" selection-start-column="29" selection-end-line="84" selection-end-column="29" />
           <folding>
+            <element signature="imports" expanded="false" />
             <marker date="1493969897590" expanded="true" signature="1061:1095" ph="UPDATE COMP3... " />
             <marker date="1493969897590" expanded="true" signature="1704:1745" ph="SELECT * FRO... COMP3402" />
             <marker date="1493969897590" expanded="true" signature="2324:2378" ph="UPDATE COMP3... " />
@@ -1342,6 +1402,34 @@
             <marker date="1493969897590" expanded="true" signature="6710:6729" ph="UPDATE COMP3... " />
             <marker date="1493969897590" expanded="true" signature="6710:6841" ph="UPDATE COMP3... " />
             <marker date="1493969897590" expanded="true" signature="7230:7286" ph="UPDATE COMP3... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoginFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="100" column="81" lean-forward="false" selection-start-line="100" selection-start-column="81" selection-end-line="100" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="29" column="25" lean-forward="true" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="147" column="36" lean-forward="true" selection-start-line="147" selection-start-column="36" selection-end-line="147" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

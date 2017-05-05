@@ -154,7 +154,6 @@ final class Calculator {
             }
             return result.intValue();
         } catch (ScriptException e) {
-            e.printStackTrace();
             return ILLEGAL;
         }
     }

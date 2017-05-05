@@ -41,5 +41,14 @@ class JMSClient extends JMSManager implements MessageListener{
             System.err.println("[ERROR] Error sending message: " + e);
         }
     }
+    
+    void shutdown() {
+    	try {
+    		queueSender.close();
+    	} catch(JMSException e) {
+    		;
+    	}
+    	close();
+    }
 
 }

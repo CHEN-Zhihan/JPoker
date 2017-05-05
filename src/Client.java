@@ -18,6 +18,7 @@ class Client {
     private int gameID;
     private final int port;
     private String username;
+    private boolean terminated = false;
     Client(String hostIP, int port) {
         try {
             Registry registry = LocateRegistry.getRegistry(hostIP);
@@ -107,16 +108,15 @@ class Client {
     }
 
     void logout() {
-        try {
+    	try {
             if (id != -1) {
-                userManager.logout(id);
-                id = -1;
+               userManager.logout(id);
+               id = -1;
             }
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             System.err.println("[ERROR] Cannot logout " + e);
-            e.printStackTrace();
-            System.exit(-1);
         }
+    	jms.shutdown();
     }
 
     void onStart(StartMessage m) {

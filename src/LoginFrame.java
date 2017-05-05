@@ -98,7 +98,7 @@ class LoginFrame extends UserFrame {
 
     public static void main(String[] args) {
         if (args.length != 2) {
-            System.out.println("Usage: java Client.jar <server IP> <server Port>");
+            System.out.println("java -Djava.security.policy=security.policy -jar JPoker24Game.jar <server IP> <server Port>");
             System.exit(-1);
         }
         new LoginFrame(args[0], Integer.parseInt(args[1]));

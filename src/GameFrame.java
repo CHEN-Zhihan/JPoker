@@ -35,11 +35,10 @@ class GameFrame extends JFrame {
         leader.addActionListener((ActionEvent e) -> setPanel(leaderBoardPanel));
         this.setPanel(profilePanel);
         this.setSize(500, 400);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
-
     }
 
     private void setPanel(ObserverPanel panel) {

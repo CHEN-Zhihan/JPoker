@@ -27,13 +27,14 @@ class Server {
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("java Server.jar <port>");
+            System.out.println("java -Djava.security.policy=security.policy -jar JPoker24GameServer.jar <port>");
             System.exit(-1);
         }
         Server server = new Server(Integer.parseInt(args[0]));
         Scanner s = new Scanner(System.in);
         while (!"exit".equals(s.next()));
         server.shutdown();
+        s.close();
         System.exit(0);
     }
 }
