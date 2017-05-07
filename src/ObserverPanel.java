@@ -5,7 +5,7 @@ import javax.swing.*;
  */
 abstract class ObserverPanel extends JPanel {
     abstract protected void initializeAppearance();
-    public void update() {
+    void update() {
         this.removeAll();
         this.initializeAppearance();
     }

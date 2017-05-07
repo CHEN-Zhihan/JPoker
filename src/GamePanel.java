@@ -69,6 +69,11 @@ class GamePanel extends ObserverPanel {
         });
     }
 
+    /**
+     * show winner and his/her solution. Prepare for next game.
+     * @param winner winner username
+     * @param solution solution provided by winner.
+     */
     void end(String winner, String solution) {
         this.removeAll();
         this.add(start);
@@ -84,6 +89,9 @@ class GamePanel extends ObserverPanel {
         this.repaint();
     }
 
+    /**
+     * send request to server. prepare appearance for game.
+     */
     private void ready() {
         client.request();
         start.setEnabled(false);
@@ -94,6 +102,11 @@ class GamePanel extends ObserverPanel {
         this.repaint();
     }
 
+    /**
+     * Setup GUI for game.
+     * @param cards 4 cards received from server.
+     * @param users players in the game.
+     */
     void start(ArrayList<Integer> cards, ArrayList<User> users) {
         completed = false;
         this.cards = cards;

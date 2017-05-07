@@ -5,6 +5,14 @@ import javax.swing.*;
  */
 abstract class UserFrame extends JFrame {
     final Client client;
+    UserFrame(Client c) {
+        client = c;
+    }
+    /**
+     * check user validity. If valid, create GameFrame.
+     * @param result
+     * @return
+     */
     boolean checkAndEnter(int result) {
         if (result <= 0) {
             return false;
@@ -13,8 +21,5 @@ abstract class UserFrame extends JFrame {
         this.dispose();
         new GameFrame(client);
         return true;
-    }
-    UserFrame(Client c) {
-        client = c;
     }
 }

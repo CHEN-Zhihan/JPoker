@@ -6,12 +6,20 @@ import java.sql.*;
 import java.util.*;
 
 /**
- * Created by zhihan on 2/7/17.
+ * Created by Zhihan CHEN on 2/7/17.
+ * DBManager is responsible for all database related operation. It implements UserManager, which
+ * is used by RMI. InfoManager is used by GameManager.
  */
 public class DBManager extends UnicastRemoteObject implements UserManager, InfoManager {
 
     private Connection connection;
     private GameManager manager;
+
+    /**
+     * setup database connection and RMI. On exit, set all user loggedIn to false.
+     * @param m gameManager, to be notified when a user log out.
+     * @throws RemoteException
+     */
     DBManager(GameManager m) throws RemoteException {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -40,6 +48,14 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
         }
         this.manager = m;
     }
+
+    /**
+     *
+     * @param username
+     * @param password
+     * @return errno if failure else user id.
+     * @throws RemoteException
+     */
     public int login(String username, char[] password) throws RemoteException {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM COMP3402 WHERE username = ?");
@@ -66,6 +82,14 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             return DATABASE_ERROR;
         }
     }
+
+    /**
+     *
+     * @param username
+     * @param password
+     * @return errno if failure else user id.
+     * @throws RemoteException
+     */
     public int register(String username, char[] password) throws RemoteException {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM COMP3402 WHERE username = ?");
@@ -90,6 +114,12 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             return DATABASE_ERROR;
         }
     }
+
+    /**
+     * Set loggedIn of user with that particular id to false.
+     * @param id
+     * @throws RemoteException
+     */
     public void logout(int id) throws RemoteException {
         try {
             PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET loggedIn = FALSE WHERE id = ?");
@@ -101,6 +131,13 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             e.printStackTrace();
         }
     }
+
+    /**
+     *
+     * @param id
+     * @return rank of user with that id.
+     * @throws RemoteException
+     */
     public int getRank(int id) throws RemoteException {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(numWins) FROM COMP3402 WHERE numWins > (SELECT numWins FROM COMP3402 WHERE id = ?)");
@@ -114,6 +151,12 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             return -1;
         }
     }
+
+    /**
+     *
+     * @return all users.
+     * @throws RemoteException
+     */
     public ArrayList<User> getAllUsers() throws RemoteException {
         try {
             Statement stmt = connection.createStatement();
@@ -138,6 +181,11 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
         }
     }
 
+    /**
+     *
+     * @param i
+     * @return User object with that user id.
+     */
     public User getUser(int i) {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT id, username, numWins, numGames, totalTime FROM COMP3402 WHERE id = ?");
@@ -154,6 +202,11 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
         }
     }
 
+    /**
+     * update database for a game winner.
+     * @param i id of winner
+     * @param time time duration for a game.
+     */
     public void update(int i, double time) {
         try {
             PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET" +
@@ -166,6 +219,11 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
             e.printStackTrace();
         }
     }
+
+    /**
+     * update database for a game loser.
+     * @param i id of loser.
+     */
     public void update(int i) {
         try {
             PreparedStatement stmt = connection.prepareStatement("UPDATE COMP3402 SET numGames = numGames + 1 WHERE id = ?");
@@ -177,6 +235,9 @@ public class DBManager extends UnicastRemoteObject implements UserManager, InfoM
         }
     }
 
+    /**
+     * close connection.
+     */
     void shutdown() {
         try {
             connection.close();

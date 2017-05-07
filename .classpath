@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="mysql-connector-java-5.0.8-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/zhihan/software/glassfish4/glassfish/lib/gf-client.jar"/>
 	<classpathentry kind="lib" path="/media/zhihan/5C2CAD6E2CAD443C/Users/Zhihan/OneDrive/HKU/COMP3402/A3/Images.jar"/>
+	<classpathentry kind="lib" path="/media/zhihan/5C2CAD6E2CAD443C/Users/Zhihan/OneDrive/HKU/COMP3402/mysql-connector-java-5.0.8-bin.jar"/>
+	<classpathentry kind="lib" path="/home/zhihan/software/glassfish4/glassfish/lib/gf-client.jar"/>
 	<classpathentry kind="output" path="out/production/assignment1"/>
 </classpath>

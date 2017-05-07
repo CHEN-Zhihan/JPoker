@@ -11,8 +11,12 @@ class GameManager {
     private final HashMap<Integer, Game> gameSet;
     private final HashMap<Integer, Game> playerGame;
     private JMSServer jms;
-    private int gameCounter;
     private InfoManager manager;
+
+    /**
+     *
+     * @param port
+     */
     GameManager(int port) {
         try {
             jms = new JMSServer(port, this);
@@ -26,13 +30,26 @@ class GameManager {
         playerGame = new HashMap<>();
     }
 
+    /**
+     *
+     * @param m
+     */
     void setInfoManager(InfoManager m) {
         manager = m;
     }
+
+    /**
+     *
+     * @param m
+     */
     void onMessage(ClientMessage m) {
         m.execute(this);
     }
 
+    /**
+     *
+     * @param i remove userID from game.
+     */
     void quit(int i) {
         System.out.println("[INFO] " + i + " quit");
         Game g = playerGame.get(i);
@@ -49,16 +66,25 @@ class GameManager {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     boolean canBegin() {
         return currentGame != null;
     }
 
+    /**
+     * process request sent by player. If there's player waiting. Add new
+     * player to that game. Else create a new game. If the game can start, start game.
+     * @param m
+     */
     void onRequest(RequestMessage m) {
         System.out.println("[INFO] Received game request from " + m.getSenderID());
         User u = manager.getUser(m.getSenderID());
         boolean canStart = false;
         if (currentGame == null) {
-            currentGame = new Game(u, gameCounter++, this);
+            currentGame = new Game(u, this);
         } else {
             currentGame.addUser(u);
             canStart = currentGame.isReady();
@@ -70,14 +96,23 @@ class GameManager {
         }
     }
 
+    /**
+     * Send start message to players in currentGame.
+     * Add currentGame to gameSet and reset currentGame.
+     */
     void start() {
         System.out.println("[INFO] Game " + currentGame.getID() + " start");
-        jms.send(new StartMessage(new ArrayList<>(currentGame.getCards()), currentGame.getUsers(), currentGame.getID()));
+        jms.send(new StartMessage(currentGame.getCards(), currentGame.getUsers(), currentGame.getID()));
         currentGame.start();
         gameSet.put(currentGame.getID(), currentGame);
         currentGame = null;
     }
 
+    /**
+     * retrieve game from gameSet, update database for players and send end message
+     * to all players.
+     * @param m FinishedMessage received from client.
+     */
     void onFinish(FinishedMessage m) {
         if (gameSet.containsKey(m.getGameID())) {
             Game game = gameSet.get(m.getGameID());
@@ -97,6 +132,9 @@ class GameManager {
         }
     }
 
+    /**
+     * 
+     */
     void shutdown() {
         jms.shutdown();
     }

@@ -8,6 +8,12 @@ import java.security.MessageDigest;
 final class PasswordManager {
     private PasswordManager() {}
     static final int ENCRYPT_ERROR = -7;
+
+    /**
+     * encrypt password using MD5.
+     * @param plaintext password.
+     * @return encrypted char array.
+     */
     static char[] encrypt(char[] plaintext){
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

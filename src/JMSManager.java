@@ -15,6 +15,13 @@ class JMSManager {
     private Connection connection;
     Session session;
 
+    /**
+     * Setup JMS topic and queue.
+     * @param host
+     * @param port
+     * @throws NamingException
+     * @throws JMSException
+     */
     JMSManager(String host, int port) throws NamingException, JMSException {
         System.setProperty("org.omg.CORBA.ORBInitialHost", host);
         System.setProperty("org.omg.CORBA.ORBInitialPort", Integer.toString(port));
@@ -47,7 +54,6 @@ class JMSManager {
             }
         }
     }
-
     ObjectMessage createMessage(Serializable obj) throws JMSException {
         try {
             return session.createObjectMessage(obj);

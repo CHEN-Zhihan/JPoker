@@ -8,9 +8,19 @@ abstract class ServerMessage implements Serializable {
     private final ArrayList<User> users;
 
     abstract void execute(Client c);
+
+    /**
+     *
+     * @param users
+     */
     ServerMessage(ArrayList<User> users) {
         this.users = users;
     }
+
+    /**
+     *
+     * @return users.
+     */
     ArrayList<User> getUsers() {
         return users;
     }
@@ -26,13 +36,27 @@ class EndMessage extends ServerMessage {
         this.winner = winner;
         this.solution = solution;
     }
+
+    /**
+     *
+     * @return winner
+     */
     String getWinner() {
         return winner;
     }
 
+    /**
+     *
+     * @return solution.
+     */
     String getSolution() {
         return solution;
     }
+
+    /**
+     *
+     * @param c
+     */
     void execute(Client c) {
         c.onEnd(this);
     }
@@ -47,14 +71,26 @@ class StartMessage extends ServerMessage {
         gameID = id;
     }
 
+    /**
+     *
+     * @param c
+     */
     void execute(Client c) {
         c.onStart(this);
     }
 
+    /**
+     *
+     * @return gameID
+     */
     int getGameID() {
         return gameID;
     }
 
+    /**
+     *
+     * @return cards.
+     */
     ArrayList<Integer> getCards() {
         return cards;
     }

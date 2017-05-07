@@ -4,7 +4,8 @@ import javax.script.ScriptException;
 import java.util.*;
 
 /**
- * Created by zhihan on 4/24/17.
+ * Created by Zhihan CHEN on 4/24/17.
+ * Calculator is a utility class with all methods static.
  */
 final class Calculator {
     static final int ILLEGAL = -1;
@@ -33,6 +34,11 @@ final class Calculator {
         ops.add('/');
     }
 
+    /**
+     * Judge whether 4 cards can make it to 24.
+     * @param cards
+     * @return
+     */
     static boolean solvable(ArrayList<Integer> cards) {
         nums = cardsToNums(cards);
         HashSet<ArrayList<Integer> > permuations = getPermutations(nums);
@@ -58,44 +64,22 @@ final class Calculator {
         return false;
     }
 
-    private static boolean solvable(ArrayList<Integer> num, ArrayList<Character> ops) {
-        Stack<Double> stack = new Stack<>();
-        for (Integer i: num) {
-            stack.push(i.doubleValue());
-        }
-        for (Character i : ops) {
-            Double left = stack.pop();
-            Double right = stack.pop();
-            switch (i) {
-                case '+': {
-                    stack.push(left + right);
-                    break;
-                }case '-': {
-                    stack.push(left - right);
-                    break;
-                }case '*': {
-                    stack.push(left * right);
-                    break;
-                }case '/': {
-                    if (right == 0) {
-                        return false;
-                    }
-                    stack.push(left / right);
-                    break;
-                }
-            }
-        }
-        return stack.peek() == Math.floor(stack.peek()) && stack.peek().intValue() == 24;
+    /**
+     *
+     * @return whether all cards are used in expression.
+     */
+    static boolean allUsed() {
+        Collections.sort(seen);
+        Collections.sort(nums);
+        return seen.equals(nums);
     }
 
-    private static ArrayList<Integer> cardsToNums(ArrayList<Integer> cards) {
-        ArrayList<Integer> nums = new ArrayList<>();
-        for (Integer i : cards) {
-            nums.add(i > 100 ? i % 100 : i % 10);
-        }
-        return nums;
-    }
-
+    /**
+     *
+     * @param input string expression entered by user.
+     * @param cards cards delivered by server.
+     * @return the result of expression on success else ILLEGAL error number.
+     */
     static int calculate(String input, ArrayList<Integer> cards) {
         nums = cardsToNums(cards);
         seen = new ArrayList<>();
@@ -118,7 +102,7 @@ final class Calculator {
                     return ILLEGAL;
                 }
                 expression.append(value);
-            } else if (!map.containsKey(input.charAt(i)) && !operator.contains(input.charAt(i))) {
+            } else if (!map.containsKey(input.charAt(i)) && !operator.contains(input.charAt(i)) && input.charAt(i) != ' ') {
                 return ILLEGAL;
             } else if (map.containsKey(input.charAt(i))) {
                 if (!nums.contains(map.get(input.charAt(i)))) {
@@ -157,11 +141,42 @@ final class Calculator {
             return ILLEGAL;
         }
     }
+    private static ArrayList<Integer> cardsToNums(ArrayList<Integer> cards) {
+        ArrayList<Integer> nums = new ArrayList<>();
+        for (Integer i : cards) {
+            nums.add(i > 100 ? i % 100 : i % 10);
+        }
+        return nums;
+    }
 
-    static boolean allUsed() {
-        Collections.sort(seen);
-        Collections.sort(nums);
-        return seen.equals(nums);
+    private static boolean solvable(ArrayList<Integer> num, ArrayList<Character> ops) {
+        Stack<Double> stack = new Stack<>();
+        for (Integer i: num) {
+            stack.push(i.doubleValue());
+        }
+        for (Character i : ops) {
+            Double left = stack.pop();
+            Double right = stack.pop();
+            switch (i) {
+                case '+': {
+                    stack.push(left + right);
+                    break;
+                }case '-': {
+                    stack.push(left - right);
+                    break;
+                }case '*': {
+                    stack.push(left * right);
+                    break;
+                }case '/': {
+                    if (right == 0) {
+                        return false;
+                    }
+                    stack.push(left / right);
+                    break;
+                }
+            }
+        }
+        return stack.peek() == Math.floor(stack.peek()) && stack.peek().intValue() == 24;
     }
 
     private static HashSet<ArrayList<Integer> > getPermutations(ArrayList<Integer> nums) {

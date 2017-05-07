@@ -25,6 +25,9 @@ class JMSServer extends JMSManager implements Runnable {
         this.manager = manager;
     }
 
+    /**
+     * waiting for incoming messages.
+     */
     public void run() {
         while (running) {
             try {
@@ -46,6 +49,10 @@ class JMSServer extends JMSManager implements Runnable {
         }
     }
 
+    /**
+     * create object message, setup property for SELECTOR. send through topicSender.
+     * @param m
+     */
     void send(ServerMessage m) {
         try {
             Message message = createMessage(m);
@@ -62,7 +69,9 @@ class JMSServer extends JMSManager implements Runnable {
         }
     }
 
-
+    /**
+     *
+     */
     void shutdown() {
         running = false;
         close();

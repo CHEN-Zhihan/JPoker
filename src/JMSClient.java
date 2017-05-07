@@ -2,11 +2,22 @@ import javax.jms.*;
 import javax.naming.NamingException;
 
 /**
- * Created by zhihan on 5/3/17.
+ * Created by Zhihan on 5/3/17.
+ * JMSManager on the client side.
  */
 class JMSClient extends JMSManager implements MessageListener{
     private MessageProducer queueSender;
     private Client c;
+
+    /**
+     *setup queueSender and topicReader using SELECTOR.
+     * @param ip
+     * @param port
+     * @param id user ID.
+     * @param c
+     * @throws NamingException
+     * @throws JMSException
+     */
     JMSClient(String ip, int port, int id, Client c) throws NamingException, JMSException{
         super(ip, port);
         try {
@@ -25,6 +36,10 @@ class JMSClient extends JMSManager implements MessageListener{
         }
     }
 
+    /**
+     * Cast received message to a ServerMessage and call client's onMessage.
+     * @param m message received from server.
+     */
     public void onMessage(Message m) {
         try {
             ServerMessage serverMessage = (ServerMessage)((ObjectMessage)m).getObject();
@@ -34,6 +49,10 @@ class JMSClient extends JMSManager implements MessageListener{
         }
     }
 
+    /**
+     * Send message to server using queueSender.
+     * @param m message created by Client.
+     */
     void sendMessage(ClientMessage m) {
         try {
             queueSender.send(createMessage(m));
@@ -41,7 +60,7 @@ class JMSClient extends JMSManager implements MessageListener{
             System.err.println("[ERROR] Error sending message: " + e);
         }
     }
-    
+
     void shutdown() {
     	try {
     		queueSender.close();

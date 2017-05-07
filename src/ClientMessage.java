@@ -15,9 +15,19 @@ class RequestMessage extends ClientMessage {
     RequestMessage(int i) {
         super(i);
     }
+
+    /**
+     *
+     * @param g
+     */
     void execute(GameManager g) {
         g.onRequest(this);
     }
+
+    /**
+     *
+     * @return id
+     */
     int getSenderID() {
         return id;
     }
@@ -33,19 +43,41 @@ class FinishedMessage extends ClientMessage {
         this.username = username;
         this.solution = solution;
     }
+
+    /**
+     *
+     * @return gameID.
+     */
     int getGameID() {
         return game;
     }
 
+    /**
+     *
+     * @return senderID.
+     */
     int getSenderID() {
         return id;
     }
 
+    /**
+     *
+     * @return solution.
+     */
     String getSolution() {
         return solution;
     }
+
+    /**
+     *
+     * @return username;
+     */
     String getUsername() {return username;}
 
+    /**
+     *
+     * @param g
+     */
     void execute(GameManager g) {
         g.onFinish(this);
     }

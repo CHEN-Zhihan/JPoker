@@ -3,6 +3,7 @@ import java.util.*;
 
 /**
  * Created by zhihan on 2/24/17.
+ * Abstraction of actual game.
  */
 class Game implements Serializable {
     private final ArrayList<User> users;
@@ -11,12 +12,18 @@ class Game implements Serializable {
     private long endTime;
     private final int id;
     private boolean ready;
-    Game(User u, int id, GameManager manager) {
+    private static int counter;
+    /**
+     *Setup Timer. If 10 seconds passed and can start, call the GameManager to start.
+     * @param u the id of first user requesting a new game.
+     * @param manager GameManager
+     */
+    Game(User u, GameManager manager) {
         startTime = System.nanoTime();
         users = new ArrayList<>();
         users.add(u);
         prepareCards();
-        this.id = id;
+        this.id = counter++;
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override

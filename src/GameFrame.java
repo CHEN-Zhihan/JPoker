@@ -60,6 +60,9 @@ class GameFrame extends JFrame {
         this.dispose();
     }
 
+    /**
+     * disable menuBar during a game.
+     */
     void freeze() {
         menuBar.setEnabled(false);
         leader.setEnabled(false);
@@ -69,6 +72,9 @@ class GameFrame extends JFrame {
         this.repaint();
     }
 
+    /**
+     * enable menuBar after a game.
+     */
     void defreeze() {
         menuBar.setEnabled(true);
         leader.setEnabled(true);
