@@ -1,6 +1,6 @@
-# COMP3402
+# JPoker
 
-This is the client-server JPoker project for the course COMP3402, system architecture and distributed computing @ HKU.
+This is the client-server JPoker project for the system architecture and distributed computing course @ HKU.
 
 DO NOT COPY MY CODE FOR YOUR ASSIGNMENT OR CONDUCT ANY KIND OF PLAGIARISM.
 
